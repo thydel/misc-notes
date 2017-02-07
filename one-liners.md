@@ -16,6 +16,18 @@ p=some; mkdir -p $p; grep -l 'url.*:'$p */.git/config | cut -d/ -f1 | xargs echo
 
 ## Update dir links time
 
-```
+```bash
 find -maxdepth 1 -type l | cut -d/ -f2 | xargs -i echo touch -hr {}/. {}
+```
+
+## Sort dirs by size excluding mounted ones
+
+```bash
+du -xd1 /dir
+```
+
+## sort dirs by file count (mixing first third levels)
+
+```bash
+find /dir -type f | awk -F/ -v OFS=/ -v c=cat '{print $2|c; print $2,$3|c; print $2,$3,$4|c}' | sort | uniq -c | sort -nr | awk '$1>1'
 ```
