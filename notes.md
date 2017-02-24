@@ -1,3 +1,41 @@
+# 2017-02-14 upgrading ubuntu from 15.04 to 16.10
+
+## tmply fix OpenSSH 7.0 disables ssh-dss keys by default
+
+```bash
+echo 'PubkeyAcceptedKeyTypes = +ssh-dss' >> ~/.ssh/config
+```
+
+## fix network manager bug
+
+```bash
+touch /etc/NetworkManager/conf.d/10-globally-managed-devices.conf
+service network-manager restart
+```
+
+## fix missing packages
+
+```bash
+aptitude install topmenu-gtk2
+aptitude install topmenu-gtk3
+```
+
+# 2017-02-14 install qemacs on chromeos
+
+[Dev-Install: Installing Developer and Test packages onto a Chrome OS device](https://www.chromium.org/chromium-os/how-tos-and-troubleshooting/install-software-on-base-images "www.chromium.org")
+
+
+# 2017-02-14 The new openssh version (7.0+) deprecated DSA keys
+
+While adding my DSA keys to my new chromeos laptop.
+Found [workaround here][SSH keeps skipping my pubkey and asking for a password].
+
+```bash
+echo 'PubkeyAcceptedKeyTypes +ssh-dss' >> ~/.ssh/config
+```
+
+[SSH keeps skipping my pubkey and asking for a password]: http://unix.stackexchange.com/questions/247612/ssh-keeps-skipping-my-pubkey-and-asking-for-a-password "unix.stackexchange.com"
+
 # 2016-12-21 lvmetad is running but disabled
 
 While upgrading on `jessie` nodes using `jessie-backports`
