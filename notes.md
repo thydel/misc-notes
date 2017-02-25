@@ -1,4 +1,19 @@
-# 2017-02-14 upgrading ubuntu from 15.04 to 16.10
+# 2017-02-25 upgrading ubuntu from 16.10 to 17.04
+
+```
+*ERROR*: Font `DejaVu Sans Mono:pixelsize=14:foundry=unknown:weight=normal:slant=normal:width=normal:spacing=100:scalable=true' is not defined
+```
+
+Workaround [here][Can't change font]
+
+[Can't change font]: http://emacs.stackexchange.com/questions/24048/cant-change-font "emacs.stackexchange.com"
+
+```lisp
+(when (member "DejaVu Sans Mono" (font-family-list))
+  (set-face-attribute 'default nil :font "DejaVu Sans Mono"))
+```
+
+# 2017-02-24 upgrading ubuntu from 15.04 to 16.10
 
 ## tmply fix OpenSSH 7.0 disables ssh-dss keys by default
 
