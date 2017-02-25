@@ -13,6 +13,15 @@ Workaround [here][Can't change font]
   (set-face-attribute 'default nil :font "DejaVu Sans Mono"))
 ```
 
+Stupid me. Wrong diagnostic. Always try `emacs -q` first. The error
+was caused by an old forgotten kludge in `.emacs`.
+
+While no looking for it, found how to fix `emacsclient` setup
+
+```lisp
+(add-hook 'window-setup-hook (lambda () (tool-bar-mode -1)(scroll-bar-mode -1)))
+```
+
 # 2017-02-24 upgrading ubuntu from 15.04 to 16.10
 
 ## tmply fix OpenSSH 7.0 disables ssh-dss keys by default
