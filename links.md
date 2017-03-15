@@ -12,3 +12,17 @@
 
 - [Enchive : encrypted personal archives](https://github.com/skeeto/enchive)
 - [Why I've Retired My PGP Keys and What's Replaced It](http://nullprogram.com/blog/2017/03/12/)
+
+# Ansi color for emacs shell
+
+- [Emacs Wiki Ansi Color](https://www.emacswiki.org/emacs/AnsiColor)
+
+```lisp
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+(add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+
+```
+
+```bash
+export TERM=eterm-color
+```
