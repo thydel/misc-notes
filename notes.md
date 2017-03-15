@@ -1,3 +1,17 @@
+# 2017-03-03 find which socket ssh-agent is using
+
+For `ssh-agent`
+
+```bash
+export SSH_AUTH_SOCK=/$(sudo lsof -a -U -u $USER -c ssh-agent -Fn -w | tail -1 | cut -d/ -f2-)
+```
+
+For `gnome-keyring`
+
+```bash
+export SSH_AUTH_SOCK=/$(sudo lsof -a -U -u $USER -c gnome-keyring -Fn -w | grep ssh | cut -d/ -f2-)
+```
+
 # 2017-02-25 upgrading ubuntu from 16.10 to 17.04
 
 ```
