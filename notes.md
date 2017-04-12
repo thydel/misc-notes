@@ -1,3 +1,15 @@
+# 2017-03-15 way to run various stdout ansible callbacks
+
+```bash
+env ANSIBLE_STDOUT_CALLBACK=debug     playbook.yml
+env ANSIBLE_STDOUT_CALLBACK=default   playbook.yml
+env ANSIBLE_STDOUT_CALLBACK=dense     playbook.yml
+env ANSIBLE_STDOUT_CALLBACK=json      playbook.yml
+env ANSIBLE_STDOUT_CALLBACK=minimal   playbook.yml
+env ANSIBLE_STDOUT_CALLBACK=oneline   playbook.yml
+env ANSIBLE_STDOUT_CALLBACK=selective playbook.yml
+```
+
 # 2017-03-03 find which socket ssh-agent is using
 
 For `ssh-agent`
