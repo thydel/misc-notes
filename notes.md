@@ -1,3 +1,28 @@
+# 2017-04-14 Uses staff group on debian
+
+[Debian wiki on SystemGroups]: https://wiki.debian.org/SystemGroups
+
+Following [Debian wiki on SystemGroups][]
+
+	staff: Allows users to add local modifications to the system
+	(/usr/local) without needing root privileges (note that
+	executables in /usr/local/bin are in the PATH variable of any
+	user, and they may "override" the executables in /bin and /usr/bin
+	with the same name). Compare with group "adm", which is more
+	related to monitoring/security.
+
+```bash
+adduser $USER staff
+exec bash -i
+```
+
+Then (in this case to use latest `pyvmomi` for `ansible` latest `vmware` *modules*)
+
+```bash
+sudo aptitude purge python-pyvmomi python-pyvmomi-doc
+pip install --upgrade pyvmomi
+```
+
 # 2017-04-14 View markdown files offline
 
 [View markdown files offline]:
