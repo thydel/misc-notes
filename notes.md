@@ -1,3 +1,15 @@
+# 2017-04-14 View markdown files offline
+
+[View markdown files offline]:
+	http://stackoverflow.com/questions/9843609/view-markdown-files-offline "stackoverflow"
+
+See [View markdown files offline][]
+
+```bash
+pip install grip
+grip -b # for README
+```
+
 # 2017-03-15 way to run various stdout ansible callbacks
 
 ```bash
