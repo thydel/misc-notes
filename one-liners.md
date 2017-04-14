@@ -31,3 +31,14 @@ du -xd1 /dir
 ```bash
 find /dir -type f | awk -F/ -v OFS=/ -v c=cat '{print $2|c; print $2,$3|c; print $2,$3,$4|c}' | sort | uniq -c | sort -nr | awk '$1>1'
 ```
+
+## How do I find out my python path using python?
+
+[How do I find out my python path using python?]:
+	http://stackoverflow.com/questions/1489599/how-do-i-find-out-my-python-path-using-python "stackoverflow"
+
+See [How do I find out my python path using python?][]
+
+```bash
+python -c "import sys; print '\n'.join(sys.path)"
+```
