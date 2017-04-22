@@ -1,3 +1,82 @@
+# 2017-04-22 merge one git repos into another
+
+[Combining Git Repositories]:
+	http://ericlathrop.com/2014/01/combining-git-repositories/ "ericlathrop.com"
+[Combining multiple git repositories]:
+	http://stackoverflow.com/questions/277029/combining-multiple-git-repositories/618113 "stackoverflow"
+[Moving a directory in git from one repo to another]:
+	http://halfhourhacks.blogspot.fr/2016/07/moving-directory-in-git-from-one-repo.html "blogspot"
+
+[git-filter-branch - Rewrite branches]:
+	https://git-scm.com/docs/git-filter-branch "git-scm.com"
+
+See [Combining Git Repositories][],
+[Combining multiple git repositories][],
+[Moving a directory in git from one repo to another][] and many
+others; all refering to
+[git-filter-branch][git-filter-branch - Rewrite branches] man(1)
+(search "To move the whole tree into a subdirectory, or remove it from
+there")
+
+[the Hg-Git mercurial plugin]: http://hg-git.github.io
+
+As we start from a Mercurial repos, we first need to export it via
+[the Hg-Git mercurial plugin][]
+
+## create an empty bare git repo
+
+`$name` is a hg repos already configured for [the Hg-Git mercurial plugin][]
+
+```bash
+git init --bare $name-git.git
+```
+
+## push the hg repos to the new git repos
+
+```bash
+pwd=$(pwd);
+hg --cwd $name --config git=$pwd/$name-git.git push git
+```
+
+## clone the new git repos
+
+```bash
+git clone $name-git.git
+```
+
+## make some changes
+
+e.g. `git mv .hgignore .gitignore` and edit `.gitignore`
+
+## move the whole tree into a subdirectory
+
+```bash
+git filter-branch --index-filter \
+        'git ls-files -s | sed "s-\t\"*;&$name/;" |
+                GIT_INDEX_FILE=$GIT_INDEX_FILE.new \
+                        git update-index --index-info &&
+         mv "$GIT_INDEX_FILE.new" "$GIT_INDEX_FILE"' HEAD
+```
+
+## optionally upgrade git
+
+On `jessie` git don't have `--allow-unrelated-histories`
+
+```bash
+aptitude -t jessie-backports install git
+```
+
+## and merge in the receiving git repos
+
+From the receiving git repos
+
+```bash
+git remote add $name $pwd//$name-git
+git fetch $name master
+git merge --allow-unrelated-histories --no-edit $(name)/master
+git push
+```
+
 # 2017-04-14 Uses staff group on debian
 
 [Debian wiki on SystemGroups]: https://wiki.debian.org/SystemGroups
