@@ -1,3 +1,105 @@
+# 2017-04-24 import one file from another repos
+
+[format-patch for a single file]:
+	http://stackoverflow.com/questions/7885075/format-patch-for-a-single-file "stackoverflow"
+	
+See [format-patch for a single file][]
+
+```bash
+git -C $repos format-patch --stdout --root $file | git am -3
+```
+
+Or
+
+```bash
+git -C $repos format-patch --stdout --root $file | git am -3 --committer-date-is-author-date
+```
+
+But I can't tell if that's a safe option.
+
+# 2017-04-24 merge one git repos into another
+
+[Advanced Git branch filtering]:
+	https://devsector.wordpress.com/2014/10/05/advanced-git-branch-filtering/ "wordpress"
+
+More advice from [Advanced Git branch filtering][]
+
+[Our helpers]:
+	https://github.com/thydel/helpers "github.com/thydel"
+
+And more tools from [Our helpers][]
+
+## create an empty bare git repo
+
+`$name` is a hg repos already configured for [the Hg-Git mercurial plugin][]
+
+```bash
+git init --bare $name-git.git
+```
+
+## push the hg repos to the new git repos
+
+```bash
+pwd=$(pwd);
+hg --cwd $name --config git=$pwd/$name-git.git push git
+```
+
+## clone the new git repos
+
+```bash
+git clone $name-git.git
+```
+
+## make some changes
+
+e.g. `git mv .hgignore .gitignore` and edit `.gitignore`
+
+## move the whole tree into a subdirectory
+
+See `helper git-index-filter`
+
+From the git repo to be merged
+
+```bash
+git-move-whole-tree-in-subdir $subdir show=1
+git-move-whole-tree-in-subdir $subdir
+```
+
+Then possibly
+
+```bash
+git-rename-top-subdir $newname renamed=$oldname show=1
+git-rename-top-subdir $newname renamed=$oldname
+```
+
+## prefix all commit messages
+
+See `helper git`
+
+From the git repo to be merged
+
+```bash
+git filter-branch --msg-filter 'echo -n "$prefix " && cat'
+```
+
+Then possibly
+
+```bash
+git filter-branch --msg-filter 'sed "s/$from/$to/"'
+```
+
+## and merge in the receiving git repos
+
+From the receiving git repos
+
+```bash
+git remote add $name $pwd/$name-git
+git fetch $name master
+git merge --allow-unrelated-histories --no-edit $name/master
+git remote delete $name
+git push
+```
+
 # 2017-04-22 merge one git repos into another
 
 [Combining Git Repositories]:
@@ -71,9 +173,10 @@ aptitude -t jessie-backports install git
 From the receiving git repos
 
 ```bash
-git remote add $name $pwd//$name-git
+git remote add $name $pwd/$name-git
 git fetch $name master
-git merge --allow-unrelated-histories --no-edit $(name)/master
+git merge --allow-unrelated-histories --no-edit $name/master
+git remote delete $name
 git push
 ```
 
