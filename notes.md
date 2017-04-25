@@ -93,10 +93,10 @@ git filter-branch --msg-filter 'sed "s/$from/$to/"'
 From the receiving git repos
 
 ```bash
-git remote add $name $pwd/$name-git
-git fetch $name master
-git merge --allow-unrelated-histories --no-edit $name/master
-git remote delete $name
+git remote add $newname $pwd/$name-git
+git fetch $newname master
+git merge --allow-unrelated-histories --no-edit $newname/master
+git remote delete $newname
 git push
 ```
 
