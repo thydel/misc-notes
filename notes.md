@@ -1,3 +1,23 @@
+# 2017-05-06 Removal of gdmflexiserver breaks user switching
+
+```
+** (gdmflexiserver:11356): WARNING **: Unable to create transient display: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.gnome.DisplayManager was not provided by any .service files GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.gnome.DisplayManager was not provided by any .service files
+```
+
+[Removal of gdmflexiserver breaks user switching]: https://bugs.launchpad.net/ubuntu/+source/xfswitch-plugin/+bug/1320560
+
+See [Removal of gdmflexiserver breaks user switching][]
+
+A simple workaround is creating the file /usr/local/bin/gdmflexiserver:
+
+```bash
+#!/bin/sh
+#
+# replacement for missing gdmflexiserver in Ubuntu 14.04
+#
+dm-tool switch-to-greeter
+```
+
 # 2017-03-15 way to run various stdout ansible callbacks
 
 ```bash
