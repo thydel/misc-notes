@@ -18,6 +18,226 @@ A simple workaround is creating the file /usr/local/bin/gdmflexiserver:
 dm-tool switch-to-greeter
 ```
 
+# 2017-04-24 import one file from another repos
+
+[format-patch for a single file]:
+	http://stackoverflow.com/questions/7885075/format-patch-for-a-single-file "stackoverflow"
+	
+See [format-patch for a single file][]
+
+```bash
+git -C $repos format-patch --stdout --root $file | git am -3
+```
+
+Or
+
+```bash
+git -C $repos format-patch --stdout --root $file | git am -3 --committer-date-is-author-date
+```
+
+But I can't tell if that's a safe option.
+
+# 2017-04-24 merge one git repos into another
+
+[Advanced Git branch filtering]:
+	https://devsector.wordpress.com/2014/10/05/advanced-git-branch-filtering/ "wordpress"
+
+More advice from [Advanced Git branch filtering][]
+
+[Our helpers]:
+	https://github.com/thydel/helpers "github.com/thydel"
+
+And more tools from [Our helpers][]
+
+## create an empty bare git repo
+
+`$name` is a hg repos already configured for [the Hg-Git mercurial plugin][]
+
+```bash
+git init --bare $name-git.git
+```
+
+## push the hg repos to the new git repos
+
+```bash
+pwd=$(pwd);
+hg --cwd $name --config git=$pwd/$name-git.git push git
+```
+
+## clone the new git repos
+
+```bash
+git clone $name-git.git
+```
+
+## make some changes
+
+e.g. `git mv .hgignore .gitignore` and edit `.gitignore`
+
+## move the whole tree into a subdirectory
+
+See `helper git-index-filter`
+
+From the git repo to be merged
+
+```bash
+git-move-whole-tree-in-subdir $subdir show=1
+git-move-whole-tree-in-subdir $subdir
+```
+
+Then possibly
+
+```bash
+git-rename-top-subdir $newname renamed=$oldname show=1
+git-rename-top-subdir $newname renamed=$oldname
+```
+
+## prefix all commit messages
+
+See `helper git`
+
+From the git repo to be merged
+
+```bash
+git filter-branch --msg-filter 'echo -n "$prefix " && cat'
+```
+
+Then possibly
+
+```bash
+git filter-branch --msg-filter 'sed "s/$from/$to/"'
+```
+
+## and merge in the receiving git repos
+
+From the receiving git repos
+
+```bash
+git remote add $newname $pwd/$name-git
+git fetch $newname master
+git merge --allow-unrelated-histories --no-edit $newname/master
+git remote delete $newname
+git push
+```
+
+# 2017-04-22 merge one git repos into another
+
+[Combining Git Repositories]:
+	http://ericlathrop.com/2014/01/combining-git-repositories/ "ericlathrop.com"
+[Combining multiple git repositories]:
+	http://stackoverflow.com/questions/277029/combining-multiple-git-repositories/618113 "stackoverflow"
+[Moving a directory in git from one repo to another]:
+	http://halfhourhacks.blogspot.fr/2016/07/moving-directory-in-git-from-one-repo.html "blogspot"
+
+[git-filter-branch - Rewrite branches]:
+	https://git-scm.com/docs/git-filter-branch "git-scm.com"
+
+See [Combining Git Repositories][],
+[Combining multiple git repositories][],
+[Moving a directory in git from one repo to another][] and many
+others; all refering to
+[git-filter-branch][git-filter-branch - Rewrite branches] man(1)
+(search "To move the whole tree into a subdirectory, or remove it from
+there")
+
+[the Hg-Git mercurial plugin]: http://hg-git.github.io
+
+As we start from a Mercurial repos, we first need to export it via
+[the Hg-Git mercurial plugin][]
+
+## create an empty bare git repo
+
+`$name` is a hg repos already configured for [the Hg-Git mercurial plugin][]
+
+```bash
+git init --bare $name-git.git
+```
+
+## push the hg repos to the new git repos
+
+```bash
+pwd=$(pwd);
+hg --cwd $name --config git=$pwd/$name-git.git push git
+```
+
+## clone the new git repos
+
+```bash
+git clone $name-git.git
+```
+
+## make some changes
+
+e.g. `git mv .hgignore .gitignore` and edit `.gitignore`
+
+## move the whole tree into a subdirectory
+
+```bash
+git filter-branch --index-filter \
+        'git ls-files -s | sed "s-\t\"*;&$name/;" |
+                GIT_INDEX_FILE=$GIT_INDEX_FILE.new \
+                        git update-index --index-info &&
+         mv "$GIT_INDEX_FILE.new" "$GIT_INDEX_FILE"' HEAD
+```
+
+## optionally upgrade git
+
+On `jessie` git don't have `--allow-unrelated-histories`
+
+```bash
+aptitude -t jessie-backports install git
+```
+
+## and merge in the receiving git repos
+
+From the receiving git repos
+
+```bash
+git remote add $name $pwd/$name-git
+git fetch $name master
+git merge --allow-unrelated-histories --no-edit $name/master
+git remote delete $name
+git push
+```
+
+# 2017-04-14 Uses staff group on debian
+
+[Debian wiki on SystemGroups]: https://wiki.debian.org/SystemGroups
+
+Following [Debian wiki on SystemGroups][]
+
+	staff: Allows users to add local modifications to the system
+	(/usr/local) without needing root privileges (note that
+	executables in /usr/local/bin are in the PATH variable of any
+	user, and they may "override" the executables in /bin and /usr/bin
+	with the same name). Compare with group "adm", which is more
+	related to monitoring/security.
+
+```bash
+adduser $USER staff
+exec bash -i
+```
+
+Then (in this case to use latest `pyvmomi` for `ansible` latest `vmware` *modules*)
+
+```bash
+sudo aptitude purge python-pyvmomi python-pyvmomi-doc
+pip install --upgrade pyvmomi
+```
+
+# 2017-04-14 View markdown files offline
+
+[View markdown files offline]:
+	http://stackoverflow.com/questions/9843609/view-markdown-files-offline "stackoverflow"
+
+See [View markdown files offline][]
+
+```bash
+pip install grip
+grip -b # for README
+>>>>>>> fd2eec9cb4ce77a38605dbfeda792598970befb5
+```
+
 # 2017-03-15 way to run various stdout ansible callbacks
 
 ```bash
