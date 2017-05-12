@@ -1,5 +1,14 @@
+MAKEFLAGS += -Rr
+
 Makefile:;
 
-%.html: %.md; pandoc -s -o $@ $<
-html: $(patsubst %.md,%.html,$(wildcard *.md));
-.PHONY: html
+notes.md: notes-notoc.md
+
+once html notes.md:; git-md $@
+.PHONY: once html
+
+clear:; rm *.html
+.PHONY: clear
+
+main: notes.md;
+.PHONY: main

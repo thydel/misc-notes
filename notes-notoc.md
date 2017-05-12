@@ -1,42 +1,4 @@
-
-Table of Contents
-=================
-
-   * [2017-05-12 new git-md tool](#2017-05-12-new-git-md-tool)
-   * [2017-05-09 new build-ansible tool](#2017-05-09-new-build-ansible-tool)
-   * [2017-05-06 Removal of gdmflexiserver breaks user switching](#2017-05-06-removal-of-gdmflexiserver-breaks-user-switching)
-   * [2017-04-24 import one file from another repos](#2017-04-24-import-one-file-from-another-repos)
-   * [2017-04-24 merge one git repos into another](#2017-04-24-merge-one-git-repos-into-another)
-      * [create an empty bare git repo](#create-an-empty-bare-git-repo)
-      * [push the hg repos to the new git repos](#push-the-hg-repos-to-the-new-git-repos)
-      * [clone the new git repos](#clone-the-new-git-repos)
-      * [make some changes](#make-some-changes)
-      * [move the whole tree into a subdirectory](#move-the-whole-tree-into-a-subdirectory)
-      * [prefix all commit messages](#prefix-all-commit-messages)
-      * [and merge in the receiving git repos](#and-merge-in-the-receiving-git-repos)
-   * [2017-04-22 merge one git repos into another](#2017-04-22-merge-one-git-repos-into-another)
-      * [create an empty bare git repo](#create-an-empty-bare-git-repo-1)
-      * [push the hg repos to the new git repos](#push-the-hg-repos-to-the-new-git-repos-1)
-      * [clone the new git repos](#clone-the-new-git-repos-1)
-      * [make some changes](#make-some-changes-1)
-      * [move the whole tree into a subdirectory](#move-the-whole-tree-into-a-subdirectory-1)
-      * [optionally upgrade git](#optionally-upgrade-git)
-      * [and merge in the receiving git repos](#and-merge-in-the-receiving-git-repos-1)
-   * [2017-04-14 Uses staff group on debian](#2017-04-14-uses-staff-group-on-debian)
-   * [2017-04-14 View markdown files offline](#2017-04-14-view-markdown-files-offline)
-   * [2017-03-15 way to run various stdout ansible callbacks](#2017-03-15-way-to-run-various-stdout-ansible-callbacks)
-   * [2017-03-03 find which socket ssh-agent is using](#2017-03-03-find-which-socket-ssh-agent-is-using)
-   * [2017-02-25 upgrading ubuntu from 16.10 to 17.04](#2017-02-25-upgrading-ubuntu-from-1610-to-1704)
-   * [2017-02-24 upgrading ubuntu from 15.04 to 16.10](#2017-02-24-upgrading-ubuntu-from-1504-to-1610)
-      * [tmply fix OpenSSH 7.0 disables ssh-dss keys by default](#tmply-fix-openssh-70-disables-ssh-dss-keys-by-default)
-      * [fix network manager bug](#fix-network-manager-bug)
-      * [fix missing packages](#fix-missing-packages)
-   * [2017-02-14 install qemacs on chromeos](#2017-02-14-install-qemacs-on-chromeos)
-   * [2017-02-14 The new openssh version (7.0 ) deprecated DSA keys](#2017-02-14-the-new-openssh-version-70-deprecated-dsa-keys)
-   * [2016-12-21 lvmetad is running but disabled](#2016-12-21-lvmetad-is-running-but-disabled)
-   * [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
-
-Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+#include notes-toc.md
 
 # 2017-05-12 new git-md tool
 
