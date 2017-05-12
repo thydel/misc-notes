@@ -1,3 +1,34 @@
+# 2017-05-09 ansible make deb
+
+I used to run `ansible` from source (See [use-ansible.mk](https://github.com/thydel/helpers/blob/master/use-ansible.mk))
+
+Once
+```bash
+(cd ~/usr/ext; git clone --branch stable-2.3 --recursive git://github.com/ansible/ansible.git ansible-stable-2.3)
+```
+
+Then
+```bash
+(cd ~/usr/ext/ansible-stable-2.3; git pull --rebase; git submodule update --init --recursive)
+```
+
+And
+```bash
+source ~/usr/ext/ansible-stable-2.3/hacking/env-setup -q
+```
+
+Then come the need to easily use `ansible` modules or even simple
+generic playbooks it helps to have a system wide installed `ansible`.
+
+[Cannot build Ubuntu deb package from git sources]: https://github.com/ansible/ansible/issues/22733
+
+But `make deb` don't work out of the box (See
+[Cannot build Ubuntu deb package from git sources][]))
+
+```bash
+
+```
+
 # 2017-05-06 Removal of gdmflexiserver breaks user switching
 
 ```
