@@ -126,6 +126,9 @@ Or maybe just uses
 ```lisp
 (package-install 'markdown-mode)
 (package-install 'markdown-toc)
+
+(package-install 's)
+(package-install 'dash)
 (package-install 'gh-md)
 ```
 
