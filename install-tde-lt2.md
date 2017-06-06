@@ -114,6 +114,8 @@ newgrp thy
 
 ## Uses emacs packages
 
+### first try, `el-get`
+
 See [el-get](https://github.com/dimitri/el-get)
 
 ```lisp
@@ -121,6 +123,7 @@ See [el-get](https://github.com/dimitri/el-get)
 (el-get-bundle elpa:markdown-toc)
 ```
 
+### second try `package-install`
 Or maybe just uses
 
 ```lisp
@@ -131,6 +134,14 @@ Or maybe just uses
 (package-install 'dash)
 (package-install 'gh-md)
 ```
+
+### uses `package-activated-list` from an already configured workstation
+
+```bash
+ssh from emacsclient -s some --eval package-activated-list | tr -d '()' | tr ' ' '\n' | sort -u \
+| xargs -i echo $'emacsclient -s some --eval "(package-install \'{})"'
+```
+
 
 ## Get private stuff
 
