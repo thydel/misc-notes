@@ -1,15 +1,53 @@
-## Got a new old desktop
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-generate-toc again -->
+**Table of Contents**
+
+- [Got a new old desktop](#got-a-new-old-desktop)
+- [Makes an installable USB key](#makes-an-installable-usb-key)
+- [Default install as usual](#default-install-as-usual)
+- [Adds my keys](#adds-my-keys)
+- [configure `sudo`](#configure-sudo)
+- [Add and use `x2x` from main WS](#add-and-use-x2x-from-main-ws)
+- [Install missing firmware](#install-missing-firmware)
+- [install some packages](#install-some-packages)
+    - [Basic install](#basic-install)
+    - [Install required tools](#install-required-tools)
+    - [Install requires libs](#install-requires-libs)
+    - [Install chrome](#install-chrome)
+    - [Install acroread](#install-acroread)
+    - [Intall a recent git](#intall-a-recent-git)
+- [Use staff group](#use-staff-group)
+- [Uses emacs packages](#uses-emacs-packages)
+    - [first try, `el-get`](#first-try-el-get)
+    - [second try `package-install`](#second-try-package-install)
+    - [uses `package-activated-list` from an already configured workstation](#uses-package-activated-list-from-an-already-configured-workstation)
+- [Get private stuff](#get-private-stuff)
+- [Get my repositories](#get-my-repositories)
+    - [Get Helpers](#get-helpers)
+    - [Get all repositories](#get-all-repositories)
+- [Install and use some local tools](#install-and-use-some-local-tools)
+    - [`git-dates` require `propagate-date`](#git-dates-require-propagate-date)
+    - [Install ansible simple way](#install-ansible-simple-way)
+    - [Install a locally built ansible](#install-a-locally-built-ansible)
+    - [Install my bashrc, my dotemacs](#install-my-bashrc-my-dotemacs)
+- [pass and GPG](#pass-and-gpg)
+    - [Install pass and get pass data](#install-pass-and-get-pass-data)
+    - [Get my GPG key](#get-my-gpg-key)
+    - [Conf gpg-agent](#conf-gpg-agent)
+
+<!-- markdown-toc end -->
+
+# Got a new old desktop
 
 [Fujitsu LifeBook AH531 Specifications](https://www.cnet.com/products/fujitsu-lifebook-ah531/specs/)
 
-## Makes an installable USB key
+# Makes an installable USB key
 
 ```bash
 wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-8.8.0-amd64-netinst.iso
 cp debian-8.8.0-amd64-netinst.iso /dev/sd$usbkeyid
 ```
 
-## Default install as usual
+# Default install as usual
 
 - Language US english
 - Location Paris
@@ -19,13 +57,13 @@ cp debian-8.8.0-amd64-netinst.iso /dev/sd$usbkeyid
   - Use LVM
 - Install Gnome, Mate, sshd
 
-## Adds my keys
+# Adds my keys
 
 ```bash
 ssh-copy-id -o PreferredAuthentications=password tde-lt2
 ```
 
-## configure `sudo`
+# configure `sudo`
 
 `ssh tde-lt2`
 
@@ -36,14 +74,14 @@ echo 'Defaults:thy env_keep += HOME' > /tmp/thy
 sudo install -m 0440 /tmp/thy /etc/sudoers.d
 ```
 
-## Add and use `x2x` from main WS
+# Add and use `x2x` from main WS
 
 ```bash
 ssh tde-lt2 -t sudo aptitude install x2x
 ssh -XC tde-lt2 x2x -east -to :0
 ```
 
-## Install missing firmware
+# Install missing firmware
 
 ```bash
 echo -e '/main$/s/$/ contrib non-free/\nwq' | ed /etc/apt/sources.list
@@ -54,6 +92,8 @@ aptitude install firmware-realtek
 shutdown -r now
 ```
 
+# install some packages
+
 ## Basic install
 
 ```bash
@@ -63,6 +103,7 @@ aptitude install thunderbird
 aptitude install thunderbird-l10n-fr
 aptitude install mate-netspeed
 ```
+
 ## Install required tools
 
 ```bash
@@ -104,7 +145,7 @@ echo deb http://ftp.debian.org/debian jessie-backports main >> /etc/apt/sources.
 aptitude -t jessie-backports install git
 ```
 
-## Use staff group
+# Use staff group
 
 ```bash
 sudo adduser thy staff
@@ -112,9 +153,9 @@ newgrp staff
 newgrp thy
 ```
 
-## Uses emacs packages
+# Uses emacs packages
 
-### first try, `el-get`
+## first try, `el-get`
 
 See [el-get](https://github.com/dimitri/el-get)
 
@@ -123,7 +164,7 @@ See [el-get](https://github.com/dimitri/el-get)
 (el-get-bundle elpa:markdown-toc)
 ```
 
-### second try `package-install`
+## second try `package-install`
 Or maybe just uses
 
 ```lisp
@@ -135,14 +176,14 @@ Or maybe just uses
 (package-install 'gh-md)
 ```
 
-### uses `package-activated-list` from an already configured workstation
+## uses `package-activated-list` from an already configured workstation
 
 ```bash
 ssh from emacsclient -s some --eval package-activated-list | tr -d '()' | tr ' ' '\n' | sort -u \
 | xargs -i echo $'emacsclient -s some --eval "(package-install \'{})"'
 ```
 
-## Get private stuff
+# Get private stuff
 
 ```bash
 (
@@ -152,9 +193,9 @@ ssh from emacsclient -s some --eval package-activated-list | tr -d '()' | tr ' '
 )
 ```
 
-## Get my repositories
+# Get my repositories
 
-### Get Helpers
+## Get Helpers
 
 ```bash
 mkdir -p ~/usr/thydel.p
@@ -162,7 +203,7 @@ git -C ~/usr/thydel.d clone git@thydel.github.com:thydel/helpers.git
 (cd ~/usr/thydel.d/helpers; ./helper.mk install)
 ```
 
-### Get all repositories
+## Get all repositories
 
 ```bash
 cd ~/usr/thydel.d
@@ -170,9 +211,9 @@ ln -s helper/thydel.mk Makefile
 make thydel
 ```
 
-## Install and use some local tools
+# Install and use some local tools
 
-### `git-dates` require `propagate-date`
+## `git-dates` require `propagate-date`
 
 ```bash
 cd ~/usr/thydel.d/helpers
@@ -180,7 +221,7 @@ make -C ../propagate-date/ install
 git-dates run date
 ```
 
-### Install ansible simple way
+## Install ansible simple way
 
 ```bash
 mkdir ~/usr/ext
@@ -188,7 +229,7 @@ use-ansible help
 (cd ~/usr/ext; git clone --branch stable-2.3 --recursive git://github.com/ansible/ansible.git ansible-stable-2.3)
 ```
 
-### Install a locally built ansible
+## Install a locally built ansible
 
 ```bash
 (
@@ -197,7 +238,7 @@ build-ansible.mk -k deps
 build-ansible.mk -k main
 ```
 
-### Install my bashrc, my dotemacs
+## Install my bashrc, my dotemacs
 
 ```bash
 cd ~/usr/thydel.d/ar-my-bash-rc
@@ -207,7 +248,9 @@ cd ~/usr/thydel.d/ar-my-dotemacs
 dotemacs-play.yml -i localhost, -c local -D
 ```
 
-### Install pass and get pass data
+# pass and GPG
+
+## Install pass and get pass data
 
 ```bash
 sudo aptitude install pass
@@ -216,7 +259,7 @@ ln -s ~/usr/perso.d/pass-store ~/.password-store
 pass git pull
 ```
 
-### Get my GPG key
+## Get my GPG key
 
 ```bash
 ssh some gpg2 --export --armor thy | gpg2 --import
@@ -224,7 +267,7 @@ ssh some gpg2 --export-secret-keys --armor thy | gpg2 --import
 ssh some gpg2 --export-ownertrust | gpg2 --import-ownertrust
 ```
 
-### Conf gpg-agent
+## Conf gpg-agent
 
 ```bash
 sudo aptitude install pinentry-curses pinentry-tty
