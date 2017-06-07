@@ -142,7 +142,6 @@ ssh from emacsclient -s some --eval package-activated-list | tr -d '()' | tr ' '
 | xargs -i echo $'emacsclient -s some --eval "(package-install \'{})"'
 ```
 
-
 ## Get private stuff
 
 ```bash
@@ -181,12 +180,21 @@ make -C ../propagate-date/ install
 git-dates run date
 ```
 
-### Install ansible
+### Install ansible simple way
 
 ```bash
 mkdir ~/usr/ext
 use-ansible help
 (cd ~/usr/ext; git clone --branch stable-2.3 --recursive git://github.com/ansible/ansible.git ansible-stable-2.3)
+```
+
+### Install a locally built ansible
+
+```bash
+(
+cd ~/usr/thydel.d/helpers
+build-ansible.mk -k deps
+build-ansible.mk -k main
 ```
 
 ### Install my bashrc, my dotemacs
@@ -199,3 +207,28 @@ cd ~/usr/thydel.d/ar-my-dotemacs
 dotemacs-play.yml -i localhost, -c local -D
 ```
 
+### Install pass and get pass data
+
+```bash
+sudo aptitude install pass
+git -C ~/usr/perso.d clone pass-store
+ln -s ~/usr/perso.d/pass-store ~/.password-store
+pass git pull
+```
+
+### Get my GPG key
+
+```bash
+ssh some gpg2 --export --armor thy | gpg2 --import
+ssh some gpg2 --export-secret-keys --armor thy | gpg2 --import
+ssh some gpg2 --export-ownertrust | gpg2 --import-ownertrust
+```
+
+### Conf gpg-agent
+
+```bash
+sudo aptitude install pinentry-curses pinentry-tty
+echo pinentry-program /usr/bin/pinentry-tty >> ~/.gnupg/gpg-agent.conf
+echo default-cache-ttl $((3600 * 24)) >> ~/.gnupg/gpg-agent.conf
+echo max-cache-ttl $((3600 * 24 * 7)) >> ~/.gnupg/gpg-agent.conf
+```
