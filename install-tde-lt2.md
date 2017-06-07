@@ -33,6 +33,9 @@
     - [Install pass and get pass data](#install-pass-and-get-pass-data)
     - [Get my GPG key](#get-my-gpg-key)
     - [Conf gpg-agent](#conf-gpg-agent)
+- [take care of ssh-agent](#take-care-of-ssh-agent)
+    - [remote servers](#remote-servers)
+    - [remote desktops](#remote-desktops)
 
 <!-- markdown-toc end -->
 
@@ -274,4 +277,59 @@ sudo aptitude install pinentry-curses pinentry-tty
 echo pinentry-program /usr/bin/pinentry-tty >> ~/.gnupg/gpg-agent.conf
 echo default-cache-ttl $((3600 * 24)) >> ~/.gnupg/gpg-agent.conf
 echo max-cache-ttl $((3600 * 24 * 7)) >> ~/.gnupg/gpg-agent.conf
+```
+
+# take care of ssh-agent
+
+```bash
+(
+	cd ~/usr/extern;
+	git clone git@github.com:wwalker/ssh-find-agent.git wwalker/ssh-find-agent;
+	ln -s wwalker/ssh-find-agent;
+)
+
+```
+
+## remote servers
+
+When using emacs daemon on remote server you usually forward your
+ssh-agent because the remote node as no agent, neither has it your
+keys.
+
+```bash
+ssh -A remote emacsclient -s emacs-session -nw
+```
+
+Or via `screen`
+
+```
+ssh -At remote screen -RdS screen-session
+```
+
+## remote desktops
+
+When using emacs daemon on a remote desktop where a use session may be
+active the mix of forwarded agents and local agents may become
+confusing.
+
+```bash
+ssh -AX remote emacsclient -s session -c
+```
+
+And the `shell` buffers may use dead or not up-to-date different remote agents.
+
+So you may choose to not forward your local desktop agent
+
+```bash
+ssh -X remote emacsclient -s session -c
+```
+
+and [ssh-find-agent](https://github.com/wwalker/ssh-find-agent) can help.
+
+As simple oneliners:
+
+```bash
+ls /tmp/ssh-*/* | cut -d. -f2 | xargs ps;
+ls /tmp/ssh-*/* | xargs -i echo env SSH_AUTH_SOCK={} ssh-add -l;
+ls /tmp/ssh-*/* | xargs -i echo export SSH_AUTH_SOCK={};
 ```
