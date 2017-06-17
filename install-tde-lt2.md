@@ -36,6 +36,7 @@
 - [take care of ssh-agent](#take-care-of-ssh-agent)
     - [remote servers](#remote-servers)
     - [remote desktops](#remote-desktops)
+- [Install Samsung SL-M3320ND](#install-samsung-sl-m3320nd)
 
 <!-- markdown-toc end -->
 
@@ -333,3 +334,29 @@ ls /tmp/ssh-*/* | cut -d. -f2 | xargs ps;
 ls /tmp/ssh-*/* | xargs -i echo env SSH_AUTH_SOCK={} ssh-add -l;
 ls /tmp/ssh-*/* | xargs -i echo export SSH_AUTH_SOCK={};
 ```
+
+# Install Samsung SL-M3320ND
+
+- Redo what we learned previously, with changes
+
+```bash
+  echo deb http://www.bchemnet.com/suldr/ debian extra > /etc/apt/sources.list.d/www.bchemnet.com.list
+
+  gpg --keyserver pgpkeys.mit.edu --recv-key C95104E509BAC46D
+  gpg -a --export C95104E509BAC46D | sudo apt-key add -
+
+  wget http://www.bchemnet.com/suldr/pool/debian/extra/su/suldr-keyring_2_all.deb
+  dpkg -i suldr-keyring_2_all.deb
+
+  aptitude update
+  aptitude install suld-driver-4.01.17
+```
+
+- Add cups install
+
+```bash
+  aptitude install cups
+  adduser thy lpadmin
+```
+
+- Use http://localhost:631/ and choose _val(Samsung M337x 387x 407x Series)
