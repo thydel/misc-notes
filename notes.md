@@ -45,7 +45,9 @@
 
 ## setting the `Password import and export` flag should be enuf
 
-Set [password-import-export flag](chrome://flags/#password-import-export) to `enabled`
+Set [password-import-export flag][] to `enabled`
+
+[password-import-export flag]: chrome://flags/#password-import-export "chrome://flags/#password-import-export"
 
 ## But Chrome 59 no longer displays the password Export button
 
@@ -53,7 +55,9 @@ See [Chrome 59 no longer displays the password Export button](https://productfor
 
 ## Unless you disable `Enable Material Design settings`
 
-Unset [enable-md-settings flag](chrome://flags/#enable-md-settings)
+Unset [enable-md-settings flag][]
+
+[enable-md-settings flag]: chrome://flags/#enable-md-settings "chrome://flags/#enable-md-settings"
 
 # 2017-05-12 new git-md tool
 
