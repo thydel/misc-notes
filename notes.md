@@ -2,6 +2,10 @@
 Table of Contents
 =================
 
+   * [2017-06-25 export chrome passwords](#2017-06-25-export-chrome-passwords)
+      * [setting the Password import and export flag should be enuf](#setting-the-password-import-and-export-flag-should-be-enuf)
+      * [But Chrome 59 no longer displays the password Export button](#but-chrome-59-no-longer-displays-the-password-export-button)
+      * [Unless you disable Enable Material Design settings](#unless-you-disable-enable-material-design-settings)
    * [2017-05-12 new git-md tool](#2017-05-12-new-git-md-tool)
    * [2017-05-09 new build-ansible tool](#2017-05-09-new-build-ansible-tool)
    * [2017-05-06 Removal of gdmflexiserver breaks user switching](#2017-05-06-removal-of-gdmflexiserver-breaks-user-switching)
@@ -37,6 +41,20 @@ Table of Contents
    * [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
+
+# 2017-06-25 export chrome passwords
+
+## setting the `Password import and export` flag should be enuf
+
+Set [password-import-export flag](chrome://flags/#password-import-export) to `enabled`
+
+## But Chrome 59 no longer displays the password Export button
+
+See [Chrome 59 no longer displays the password Export button](https://productforums.google.com/forum/#!topic/chrome/99KZmH2DRrA)
+
+## Unless you disable `Enable Material Design settings`
+
+Unset [enable-md-settings flag](chrome://flags/#enable-md-settings)
 
 # 2017-05-12 new git-md tool
 

@@ -1,5 +1,19 @@
 #include notes-toc.md
 
+# 2017-06-25 export chrome passwords
+
+## setting the `Password import and export` flag should be enuf
+
+Set [password-import-export flag](chrome://flags/#password-import-export) to `enabled`
+
+## But Chrome 59 no longer displays the password Export button
+
+See [Chrome 59 no longer displays the password Export button](https://productforums.google.com/forum/#!topic/chrome/99KZmH2DRrA)
+
+## Unless you disable `Enable Material Design settings`
+
+Unset [enable-md-settings flag](chrome://flags/#enable-md-settings)
+
 # 2017-05-12 new git-md tool
 
 Use it to add TOC to any markdown file named `*-notoc.md`
