@@ -119,7 +119,7 @@ aptitude install screen
 ## Install requires libs
 
 ```bash
-aptitude install python-yaml python-jinja2 # for ansible
+aptitude install python-yaml python-jinja2 python-paramiko # for ansible
 ```
 
 ## Install chrome
@@ -193,7 +193,7 @@ ssh from emacsclient -s some --eval package-activated-list | tr -d '()' | tr ' '
 (
 	mkdir -p ~/usr/perso.d;
 	cd ~/usr/perso.d;
-	git clone $perso:usr/perso.d/bash_history.git
+	git clone $perso:usr/perso.d/private.git
 )
 ```
 
@@ -202,7 +202,7 @@ ssh from emacsclient -s some --eval package-activated-list | tr -d '()' | tr ' '
 ## Get Helpers
 
 ```bash
-mkdir -p ~/usr/thydel.p
+mkdir -p ~/usr/thydel.d
 git -C ~/usr/thydel.d clone git@thydel.github.com:thydel/helpers.git
 (cd ~/usr/thydel.d/helpers; ./helper.mk install)
 ```
@@ -211,7 +211,7 @@ git -C ~/usr/thydel.d clone git@thydel.github.com:thydel/helpers.git
 
 ```bash
 cd ~/usr/thydel.d
-ln -s helper/thydel.mk Makefile
+ln -s helpers/thydel.mk Makefile
 make thydel
 ```
 
@@ -258,17 +258,9 @@ dotemacs-play.yml -i localhost, -c local -D
 
 ```bash
 sudo aptitude install pass
-git -C ~/usr/perso.d clone pass-store
+# git -C ~/usr/perso.d clone pass-store
 ln -s ~/usr/perso.d/pass-store ~/.password-store
 pass git pull
-```
-
-## Get my GPG key
-
-```bash
-ssh some gpg2 --export --armor thy | gpg2 --import
-ssh some gpg2 --export-secret-keys --armor thy | gpg2 --import
-ssh some gpg2 --export-ownertrust | gpg2 --import-ownertrust
 ```
 
 ## Conf gpg-agent
@@ -278,6 +270,23 @@ sudo aptitude install pinentry-curses pinentry-tty
 echo pinentry-program /usr/bin/pinentry-tty >> ~/.gnupg/gpg-agent.conf
 echo default-cache-ttl $((3600 * 24)) >> ~/.gnupg/gpg-agent.conf
 echo max-cache-ttl $((3600 * 24 * 7)) >> ~/.gnupg/gpg-agent.conf
+```
+
+## Get my GPG key
+
+```bash
+ssh some gpg2 --export --armor thy | gpg2 --import
+ssh -t some gpg2 --export-secret-keys --armor thy | gpg2 --import
+ssh some gpg2 --export-ownertrust | gpg2 --import-ownertrust
+```
+
+## Get my GPG key, stretch
+
+```bash
+ssh some gpg2 --export --armor thy | gpg2 --import
+ssh -t some gpg2 --export-secret-keys --armor thy | tee tmpkey; gpg2 --import < tmpkey; rm tmpkey
+# rm ~/.gnupg/trustdb.gpg
+ssh some gpg2 --export-ownertrust | gpg2 --import-ownertrust
 ```
 
 # take care of ssh-agent
