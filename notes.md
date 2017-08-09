@@ -1,6 +1,8 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-generate-toc again -->
 **Table of Contents**
 
+- [2017-08-02 run a SSH server on Chrome OS](#2017-08-02-run-a-ssh-server-on-chrome-os)
+- [2017-08-02 Prevents chromeos to unmount USB key when suspending](#2017-08-02-prevents-chromeos-to-unmount-usb-key-when-suspending)
 - [2017-06-25 export chrome passwords](#2017-06-25-export-chrome-passwords)
     - [setting the `Password import and export` flag should be enuf](#setting-the-password-import-and-export-flag-should-be-enuf)
     - [But Chrome 59 no longer displays the password Export button](#but-chrome-59-no-longer-displays-the-password-export-button)
@@ -40,6 +42,26 @@
 - [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 <!-- markdown-toc end -->
+
+# 2017-08-02 run a SSH server on Chrome OS
+
+[Chromebook: run a SSH server on Chrome OS]: https://www.dereckson.be/blog/2015/01/15/chromebook-run-a-ssh-server-on-chrome-os/
+
+# 2017-08-02 Prevents chromeos to unmount USB key when suspending
+
+So as to allow using Crouton on an USB key.
+
+[USB stick keeps being remounted by Chrome OS?][] tells to use `/sys/bus/usb/devices/power/persist`
+and [Linux: How to map a blockdevice to a USB-device?][] give a usable heuristic
+
+```console
+dev=$(ls -l /sys/bus/usb/devices/*/driver | grep storage | cut -d/ -f6 | cut -d: -f1)
+echo 1 | sudo tee /sys/bus/usb/devices/$dev/power/persist
+```
+
+[USB stick keeps being remounted by Chrome OS?]: https://github.com/dnschneid/crouton/issues/1936 "github.com"
+[Linux: How to map a blockdevice to a USB-device?]:
+	https://stackoverflow.com/questions/3493858/linux-how-to-map-a-blockdevice-to-a-usb-device "stackoverflow.com"
 
 # 2017-06-25 export chrome passwords
 
