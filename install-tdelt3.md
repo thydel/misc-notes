@@ -18,7 +18,7 @@
 
 ```
 wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-9.1.0-amd64-netinst.iso
-copy debian-9.1.0-amd64-netinst.iso /dev/sdX
+cp debian-9.1.0-amd64-netinst.iso /dev/sdX
 ```
 
 # Default install as usual
