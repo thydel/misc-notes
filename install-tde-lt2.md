@@ -119,7 +119,7 @@ aptitude install screen
 ## Install requires libs
 
 ```bash
-aptitude install python-yaml python-jinja2 python-paramiko # for ansible
+aptitude install python-yaml python-jinja2 python-paramiko python-crypto # for ansible
 ```
 
 ## Install chrome
@@ -168,12 +168,21 @@ See [el-get](https://github.com/dimitri/el-get)
 (el-get-bundle elpa:markdown-toc)
 ```
 
+## we need melpa
+
+```lisp
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(package-list-packages)
+```
+
 ## second try `package-install`
 Or maybe just uses
 
 ```lisp
 (package-install 'markdown-mode)
 (package-install 'markdown-toc)
+
 
 (package-install 's)
 (package-install 'dash)
@@ -259,7 +268,7 @@ dotemacs-play.yml -i localhost, -c local -D
 ```bash
 sudo aptitude install pass
 # git -C ~/usr/perso.d clone pass-store
-ln -s ~/usr/perso.d/pass-store ~/.password-store
+ln -s ~/usr/perso.d/pass-store ~/.password-store 
 pass git pull
 ```
 
@@ -282,9 +291,13 @@ ssh some gpg2 --export-ownertrust | gpg2 --import-ownertrust
 
 ## Get my GPG key, stretch
 
+https://www.debuntu.org/how-to-importexport-gpg-key-pair/
+
 ```bash
 ssh some gpg2 --export --armor thy | gpg2 --import
-ssh -t some gpg2 --export-secret-keys --armor thy | tee tmpkey; gpg2 --import < tmpkey; rm tmpkey
+ssh -t some gpg2 --export-secret-keys --armor --output tmp.gpg thy
+rsync some:tmp.gpg .
+gpg2 --import tmp.gpg; rm tpm.gpg
 # rm ~/.gnupg/trustdb.gpg
 ssh some gpg2 --export-ownertrust | gpg2 --import-ownertrust
 ```
