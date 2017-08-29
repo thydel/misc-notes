@@ -53,12 +53,12 @@ aptitude install deborphan; deborphan
 
 Allows passwordless sudo during install
 ```
-echo 'thy ALL=(ALL:ALL) NOPASSWD: ALL' > /etc/sudoers.d/thy
+echo 'thy ALL=(ALL:ALL) NOPASSWD: ALL' | sudo tee /etc/sudoers.d/thy
 ```
 
 Use my dotfiles when in sudo
 ```
-echo 'Defaults:thy env_keep += HOME' >> /etc/sudoers.d/thy
+echo 'Defaults:thy env_keep += HOME' | sudo tee -a /etc/sudoers.d/thy
 ```
 
 # first remote steps
@@ -82,3 +82,55 @@ ssh tdelt3 sudo lshw -json | find-eth-name.jq | ssh tdelt3 sudo xargs ethtool -P
 
 # Usual DHCP and DNS setup
 
+# install some packages
+
+## Basic install
+
+```bash
+sudo aptitude install htop
+sudo aptitude install emacs
+sudo aptitude install thunderbird
+sudo aptitude install thunderbird-l10n-fr
+```
+
+## Install required tools
+
+```bash
+sudo aptitude install rsync
+sudo aptitude install make make-doc
+sudo aptitude install screen
+```
+
+## Install requires libs
+
+```bash
+sudo aptitude install python-yaml python-jinja2 python-paramiko # for ansible
+```
+
+## Install chrome
+
+```bash
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+echo deb http://dl.google.com/linux/chrome/deb/ stable main | sudo tee -a /etc/apt/sources.list.d/google.list
+sudo aptitude update
+sudo aptitude install google-chrome-stable
+```
+
+## Install acroread
+
+```bash
+wget ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i386linux_enu.deb
+sudo dpkg --add-architecture i386
+sudo aptitude update
+which gdebi || sudo aptitude install gdebi
+sudo aptitude install libxml2:i386 libstdc++6:i386
+sudo gdebi -n AdbeRdr9.5.5-1_i386linux_enu.deb
+```
+
+# Use staff group
+
+```bash
+sudo adduser thy staff
+newgrp staff
+newgrp thy
+```
