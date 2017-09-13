@@ -1,6 +1,9 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-generate-toc again -->
 **Table of Contents**
 
+- [2017-09-13 Multiple application profiles](#2017-09-13-multiple-application-profiles)
+    - [chrome](#chrome)
+    - [firefox](#firefox)
 - [2017-08-02 run a SSH server on Chrome OS](#2017-08-02-run-a-ssh-server-on-chrome-os)
 - [2017-08-02 Prevents chromeos to unmount USB key when suspending](#2017-08-02-prevents-chromeos-to-unmount-usb-key-when-suspending)
 - [2017-06-25 export chrome passwords](#2017-06-25-export-chrome-passwords)
@@ -42,6 +45,101 @@
 - [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 <!-- markdown-toc end -->
+
+# 2017-09-13 Multiple application profiles
+
+## chrome
+
+`.config/mate/panel2.d/default/launchers/google-chrome.desktop`
+
+```
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Icon[en_US]=/usr/local/share/icons/Google_Chrome_icon_(2011).svg
+Exec=google-chrome-beta --profile-directory=Default
+Icon=mate-panel-launcher
+Name[en_US]=Perso
+Name=Perso
+```
+
+`.config/mate/panel2.d/default/launchers/google-chrome-1.desktop`
+
+```
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Icon[en_US]=/usr/local/share/icons/Chrome_Logo.svg
+Exec=google-chrome-beta --profile-directory='Profile 1'
+Icon=mate-panel-launcher
+Name[en_US]=Epiconcept
+Name=Epiconcept
+```
+
+## firefox
+
+Add new profile
+
+```
+firefox-esr -P
+```
+
+`.config/mate/panel2.d/default/launchers/firefox-esr.desktop`
+
+```
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Name=Firefox ESR
+Name[fr]=Firefox ESR
+Comment=Browse the World Wide Web
+Comment[fr]=Navigue sur Internet
+GenericName=Web Browser
+GenericName[fr]=Navigateur Web
+X-GNOME-FullName=Firefox ESR Web Browser
+X-GNOME-FullName[fr]=Navigateur Web Firefox ESR
+Exec=/usr/lib/firefox-esr/firefox-esr -P Epiconcept %u
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=firefox-esr
+Categories=Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/vnd.mozilla.xul+xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;
+StartupWMClass=Firefox-esr
+Icon[en_US]=/usr/local/share/icons/Firefox_icon.svg
+Name[en_US]=Firefox ESR EpiConcept
+```
+
+`.config/mate/panel2.d/default/launchers/firefox-esr-1.desktop`
+
+```
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Name=Firefox ESR
+Name[fr]=Firefox ESR
+Comment=Browse the World Wide Web
+Comment[fr]=Navigue sur Internet
+GenericName=Web Browser
+GenericName[fr]=Navigateur Web
+X-GNOME-FullName=Firefox ESR Web Browser
+X-GNOME-FullName[fr]=Navigateur Web Firefox ESR
+Exec=/usr/lib/firefox-esr/firefox-esr -P default %u
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=firefox-esr
+Categories=Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/vnd.mozilla.xul+xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;
+StartupWMClass=Firefox-esr
+Name[en_US]=Firefox ESR Perso
+```
 
 # 2017-08-02 run a SSH server on Chrome OS
 
