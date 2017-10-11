@@ -96,6 +96,7 @@ sudo aptitude install thunderbird-l10n-fr
 ## Install required tools
 
 ```bash
+sudo aptitude install git
 sudo aptitude install rsync
 sudo aptitude install make make-doc
 sudo aptitude install screen
@@ -133,4 +134,109 @@ sudo gdebi -n AdbeRdr9.5.5-1_i386linux_enu.deb
 sudo adduser thy staff
 newgrp staff
 newgrp thy
+```
+
+# Get private stuff
+
+```bash
+(
+	mkdir -p ~/usr/perso.d;
+	cd ~/usr/perso.d;
+	git clone $perso:usr/perso.d/private.git;
+	ln -s private/perso.mk Makefile;
+	make perso;
+)
+```
+
+# Get my repositories
+
+## Get Helpers
+
+```bash
+mkdir -p ~/usr/thydel.d
+git -C ~/usr/thydel.d clone git@thydel.github.com:thydel/helpers.git
+(cd ~/usr/thydel.d/helpers; ./helper.mk install)
+```
+
+## Get all repositories
+
+```bash
+cd ~/usr/thydel.d
+ln -s helpers/thydel.mk Makefile
+make thydel
+```
+
+# Install and use some local tools
+
+## `git-dates` require `propagate-date`
+
+```bash
+cd ~/usr/thydel.d/helpers
+make -C ../propagate-date/ install
+git-dates run dates
+```
+
+## Install ansible simple way
+
+```bash
+mkdir ~/usr/ext
+use-ansible help
+(cd ~/usr/ext; git clone --branch stable-2.4 --recursive git://github.com/ansible/ansible.git ansible-stable-2.4)
+```
+
+## Install my bashrc, my dotemacs
+
+```bash
+cd ~/usr/thydel.d/ar-my-bash-rc
+helper ansible
+bashrc-play.yml -i localhost, -c local -D
+cd ~/usr/thydel.d/ar-my-dotemacs
+dotemacs-play.yml -i localhost, -c local -D
+```
+
+# pass and GPG
+
+## Install pass and get pass data
+
+```bash
+sudo aptitude install pass
+# git -C ~/usr/perso.d clone pass-store
+ln -s ~/usr/perso.d/pass-store ~/.password-store 
+pass git status
+```
+
+## Conf gpg-agent
+
+```bash
+sudo aptitude install pinentry-curses pinentry-tty
+echo pinentry-program /usr/bin/pinentry-tty >> ~/.gnupg/gpg-agent.conf
+echo default-cache-ttl $((3600 * 24)) >> ~/.gnupg/gpg-agent.conf
+echo max-cache-ttl $((3600 * 24 * 7)) >> ~/.gnupg/gpg-agent.conf
+```
+
+## Get my GPG key, jessie
+
+```bash
+ssh some gpg2 --export --armor thy | gpg2 --import
+ssh -t some gpg2 --export-secret-keys --armor thy | gpg2 --import
+ssh some gpg2 --export-ownertrust | gpg2 --import-ownertrust
+```
+
+## Get my GPG key, stretch
+
+https://www.debuntu.org/how-to-importexport-gpg-key-pair/
+
+```bash
+ssh $some gpg2 --export --armor thy | gpg2 --import
+ssh -t $some gpg2 --export-secret-keys --armor --output tmp.gpg thy
+rsync $some:tmp.gpg .
+gpg2 --import tmp.gpg; rm tmp.gpg
+# rm ~/.gnupg/trustdb.gpg
+ssh $some gpg2 --export-ownertrust | gpg2 --import-ownertrust
+```
+
+# GSTM
+
+```bash
+sudo aptitude install gstm
 ```

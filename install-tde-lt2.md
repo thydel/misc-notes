@@ -231,7 +231,7 @@ make thydel
 ```bash
 cd ~/usr/thydel.d/helpers
 make -C ../propagate-date/ install
-git-dates run date
+git-dates run dates
 ```
 
 ## Install ansible simple way
