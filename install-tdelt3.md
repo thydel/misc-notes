@@ -104,8 +104,12 @@ sudo aptitude install screen
 
 ## Install requires libs
 
+### ansible
+
 ```bash
-sudo aptitude install python-yaml python-jinja2 python-paramiko # for ansible
+sudo aptitude install python-yaml python-jinja2 python-paramiko python-apt
+sudo aptitude install python-pip
+sudo pip install pycrypto
 ```
 
 ## Install chrome
@@ -235,8 +239,153 @@ gpg2 --import tmp.gpg; rm tmp.gpg
 ssh $some gpg2 --export-ownertrust | gpg2 --import-ownertrust
 ```
 
+# Uses `package-activated-list` from an already configured workstation
+
+```bash
+ssh $from emacsclient -s $USER --eval package-activated-list | tr -d '()' | tr ' ' '\n' | sort -u \
+| xargs -i echo $'emacsclient -s $USER --eval "(package-install \'{})"'
+```
+
 # GSTM
 
 ```bash
 sudo aptitude install gstm
 ```
+
+Manually add entries
+
+## wato
+
+```xml
+<sshtunnel>
+	<name>wato</name>
+	<host>wato.epiconcept.net</host>
+	<port>22000</port>
+	<login>thy</login>
+	<privkey></privkey>
+	<autostart>0</autostart>
+	<tunnel>
+		<type>dynamic</type>
+		<port1>42100</port1>
+		<host>n/a</host>
+		<port2>n/a</port2>
+	</tunnel>
+</sshtunnel>
+```
+
+## charenton make
+
+```xml
+<sshtunnel>
+	<name>stasock</name>
+	<host>sta.epiconcept.net</host>
+	<port>22000</port>
+	<login>thy</login>
+	<privkey></privkey>
+	<autostart>0</autostart>
+	<tunnel>
+		<type>dynamic</type>
+		<port1>42000</port1>
+		<host>n/a</host>
+		<port2>n/a</port2>
+	</tunnel>
+</sshtunnel>
+```
+
+## charenton rebond
+
+```xml
+<sshtunnel>
+	<name>stasock-rebond</name>
+	<host>sta.epiconcept.net</host>
+	<port>22001</port>
+	<login>thy</login>
+	<privkey></privkey>
+	<autostart>0</autostart>
+	<tunnel>
+		<type>dynamic</type>
+		<port1>42001</port1>
+		<host>n/a</host>
+		<port2>n/a</port2>
+	</tunnel>
+</sshtunnel>
+```
+
+## oxa bastion
+
+```xml
+<sshtunnel>
+	<name>bastion</name>
+	<host>95.131.137.25</host>
+	<port>22</port>
+	<login>thy</login>
+	<privkey></privkey>
+	<autostart>0</autostart>
+	<tunnel>
+		<type>dynamic</type>
+		<port1>42002</port1>
+		<host>n/a</host>
+		<port2>n/a</port2>
+	</tunnel>
+</sshtunnel>
+```
+
+# Get epi repositories
+
+## Get bootstrap dir
+
+```bash
+mkdir -p ~/usr/epipar.d
+git -C ~/usr/epipar.d clone git@thyepi.github.com:Epiconcept-Paris/infra-plays.git
+```
+
+## Get all repositories
+
+```bash
+cd ~/usr/epipar.d
+ln -s infra-plays/epipar.mk Makefile
+make epipar
+```
+
+# Install screen configs
+
+Uses [ar-my-screenrc](https://github.com/thydel/ar-my-screenrc)
+
+```bash
+helper ansible
+helper git-config
+sudo aptitude install whois
+screenrc-play.yml -i locahost, -c local -D
+```
+
+Uses [infra-thy](https://github.com/Epiconcept-Paris/infra-thy)
+
+```bash
+helper ansible # to install latest ansible
+helper ansible/help # to install ansible-2.2 (for make all, aka dependencies)
+make all
+pass dummy
+helper git-config
+helper run dif init-play-dir vault_pass=vault/thy
+sudo aptitude install whois # for mkpasswd
+screen-remotes-oxa.yml -i localhost, -c local -DC
+screen-remotes.yml -i localhost, -c local -DC
+```
+
+# chrome conf
+
+## Add Epiconcept person to chrome
+
+No non manual way currently known.
+
+## laucher
+
+google-chrome-beta --profile-directory=Default %U
+google-chrome-beta --profile-directory='Profile 1' %U
+
+```
+mkdir /usr/local/share/icons
+rsync -av ~/usr/perso.d/documents/icons/ /usr/local/share/icons
+```
+
+Choose different icons for different profiles
