@@ -96,6 +96,7 @@ sudo aptitude install thunderbird-l10n-fr
 ## Install required tools
 
 ```bash
+sudo aptitude install netcat-openbsd
 sudo aptitude install git
 sudo aptitude install rsync
 sudo aptitude install make make-doc
