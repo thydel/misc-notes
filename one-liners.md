@@ -48,3 +48,9 @@ See [How do I find out my python path using python?][]
 ```bash
 python -c "import sys; print '\n'.join(sys.path)"
 ```
+
+# Use make for simple parallel transformation on a set of files
+
+```
+find -name '*.gz' | rev | cut -d. -f2- | rev | xargs make -f <(echo '%: %.gz; gunzip $<') -j 16
+```
