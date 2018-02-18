@@ -39,6 +39,7 @@ Login using mate and use `su` add us to `sudo` group
 ```
 su
 adduser thy sudo
+exit
 mate-session-save --logout
 ```
 
@@ -61,11 +62,16 @@ Use my dotfiles when in sudo
 echo 'Defaults:thy env_keep += HOME' | sudo tee -a /etc/sudoers.d/thy
 ```
 
+Install opensssh
+```
+sudo aptitude install openssh-server
+```
+
 # first remote steps
 
 ## install key
 ```
-ssh-copy-id -i ~/.ssh/id_rsa -o PreferredAuthentications=password tdelt3
+ssh-copy-id -i ~/.ssh/t.delamare@laposte.net -o PreferredAuthentications=password tdelt3
 ssh tdelt3 sudo aptitude install emacs25-lucid
 ```
 
@@ -84,23 +90,41 @@ ssh tdelt3 sudo lshw -json | find-eth-name.jq | ssh tdelt3 sudo xargs ethtool -P
 
 # install some packages
 
+## Setup apt sources
+
+```
+ssh tdelt3 sudo aptitude install ed
+echo -e 'g/^[^#].*main/s/main/main contrib non-free/\nwq' | ssh tdelt3 sudo ed /etc/apt/sources.list
+ssh tdelt3 sudo aptitude update
+ssh tdelt3 sudo aptitude install firmware-linux
+ssh tdelt3 sudo aptitude install apt-file
+ssh tdelt3 sudo apt-file update
+```
+
+## Fix missing firmware
+
+```
+zgrep firmware /var/log/kernl.log* | grep failed
+list-missing-firmware-file | xargs apt-file search {}
+list-missing-firmware-pkg  | xargs aptitude install {}
+```
+
 ## Basic install
 
 ```bash
-sudo aptitude install htop
-sudo aptitude install emacs
-sudo aptitude install thunderbird
-sudo aptitude install thunderbird-l10n-fr
+ssh tdelt3 sudo aptitude install htop hdparm net-tools
+ssh tdelt3 sudo aptitude install thunderbird
+ssh tdelt3 sudo aptitude install thunderbird-l10n-fr
 ```
 
 ## Install required tools
 
 ```bash
-sudo aptitude install netcat-openbsd
-sudo aptitude install git
-sudo aptitude install rsync
-sudo aptitude install make make-doc
-sudo aptitude install screen
+ssh tdelt3 sudo aptitude install netcat-openbsd
+ssh tdelt3 sudo aptitude install git
+ssh tdelt3 sudo aptitude install rsync
+ssh tdelt3 sudo aptitude install make make-doc
+ssh tdelt3 sudo aptitude install screen
 ```
 
 ## Install requires libs
@@ -108,9 +132,9 @@ sudo aptitude install screen
 ### ansible
 
 ```bash
-sudo aptitude install python-yaml python-jinja2 python-paramiko python-apt
-sudo aptitude install python-pip
-sudo pip install pycrypto
+ssh tdelt3 sudo aptitude install python-yaml python-jinja2 python-paramiko python-apt
+ssh tdelt3 sudo aptitude install python-pip
+ssh tdelt3 sudo -H pip install pycrypto
 ```
 
 ## Install chrome
