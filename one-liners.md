@@ -54,3 +54,44 @@ python -c "import sys; print '\n'.join(sys.path)"
 ```
 find -name '*.gz' | rev | cut -d. -f2- | rev | xargs make -f <(echo '%: %.gz; gunzip $<') -j 16
 ```
+
+# Trust a GPG key non interactively
+
+## With output
+
+```
+echo -e 'trust\n5\ny' | gpg --command-fd 0 --edit-key 4AEE18F83AFDEB23
+```
+
+## Without output
+
+```
+echo -e 'trust\n5\ny' | gpg --command-fd 0 --no-tty --batch --edit-key 4AEE18F83AFDEB23 
+```
+
+## Show session
+
+```console
+thy@tdeltd:~$ echo 1 | gpg --command-fd 0 --search 4AEE18F83AFDEB23
+gpg: data source: http://192.94.109.73:11371
+(1)	GitHub (web-flow commit signing) <noreply@github.com>
+	  2048 bit RSA key 4AEE18F83AFDEB23, created: 2017-08-16
+gpg: key 4AEE18F83AFDEB23: public key "GitHub (web-flow commit signing) <noreply@github.com>" imported
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: depth: 0  valid:   1  signed:   1  trust: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: depth: 1  valid:   1  signed:   0  trust: 1-, 0q, 0n, 0m, 0f, 0u
+gpg: Total number processed: 1
+gpg:               imported: 1
+
+thy@tdeltd:~$ gpg -k 4AEE18F83AFDEB23
+pub   rsa2048 2017-08-16 [SC]
+      5DE3E0509C47EA3CF04A42D34AEE18F83AFDEB23
+uid           [ unknown] GitHub (web-flow commit signing) <noreply@github.com>
+
+thy@tdeltd:~$ echo -e 'trust\n5\ny' | gpg --command-fd 0 --no-tty --batch --edit-key 4AEE18F83AFDEB23 
+
+thy@tdeltd:~$ gpg -k 4AEE18F83AFDEB23
+pub   rsa2048 2017-08-16 [SC]
+      5DE3E0509C47EA3CF04A42D34AEE18F83AFDEB23
+uid           [ultimate] GitHub (web-flow commit signing) <noreply@github.com>
+```
