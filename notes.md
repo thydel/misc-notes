@@ -46,6 +46,23 @@
 
 <!-- markdown-toc end -->
 
+# 2018-03-23 use meld to commit only part of changes on a file in Git
+
+Found [Commit only part of a file in Git][]
+
+```
+sudo aptitude install meld
+git stash
+git difftool -d -t meld stash
+# left window is the copy of the stash version
+# rigth window is the working dir version
+# apply whatever selected changes from the left to the rigth, save and quit
+git commit -a -m 'for the selected changes'
+git stash pop
+```
+[Commit only part of a file in Git]:
+	https://stackoverflow.com/questions/1085162/commit-only-part-of-a-file-in-git "stackoverflow.com"
+
 # 2017-09-13 Multiple application profiles
 
 ## chrome
