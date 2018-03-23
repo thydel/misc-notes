@@ -60,8 +60,13 @@ git difftool -d -t meld stash
 git commit -a -m 'for the selected changes'
 git stash pop
 ```
+See also [View differences of branches with meld?][]
+
 [Commit only part of a file in Git]:
 	https://stackoverflow.com/questions/1085162/commit-only-part-of-a-file-in-git "stackoverflow.com"
+
+[View differences of branches with meld?]:
+	https://stackoverflow.com/questions/2006032/view-differences-of-branches-with-meld/2006241 "stackoverflow.com"
 
 # 2017-09-13 Multiple application profiles
 
