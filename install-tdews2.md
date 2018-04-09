@@ -7,7 +7,7 @@ See [HP 260 G2 Desktop Mini PC - Specifications][]
 
 # Makes an installable USB key
 
-```bash
+```
 wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-9.4.0-amd64-netinst.iso
 cp debian-9.4.0-amd64-netinst.iso /dev/sd$usbkeyid
 ```
@@ -167,15 +167,135 @@ newgrp staff
 newgrp thy
 ```
 
+# Temporarily fix gnome-keyring nightmare
+
+On `tdews2`
+```
+ssh-agent > /tmp/.ssha
+. /tmp/.ssha
+```
+
+On `tdews2`
 # Get private stuff
 
 ```
 (
 	mkdir -p ~/usr/perso.d;
 	cd ~/usr/perso.d;
-	git clone $perso:usr/perso.d/private.git;
+	git clone $perso:$(pwd)/private.git;
 	ln -s private/perso.mk Makefile;
 	make perso;
 )
 ```
 
+# Get my repositories
+
+On `tdews2`
+
+## Get Helpers
+
+```
+echo -e 'Host *.github.com\nHostname github.com\n' >> ~/.ssh/config
+echo -e 'Host thydel.github.com\nIdentityFile ~/.ssh/t.delamare@laposte.net\n'  >> ~/.ssh/config
+
+mkdir -p ~/usr/thydel.d
+git -C ~/usr/thydel.d clone git@thydel.github.com:thydel/helpers.git
+(cd ~/usr/thydel.d/helpers; ./helper.mk install)
+```
+
+## Get all repositories
+
+```
+cd ~/usr/thydel.d
+ln -s helpers/thydel.mk Makefile
+make thydel
+```
+
+# Install and use some local tools
+
+On `tdews2`
+
+## `git-dates` require `propagate-date`
+
+```
+cd ~/usr/thydel.d/helpers
+make -C ../propagate-date/ install
+git-dates run dates
+```
+
+## Install ansible simple way
+
+```
+mkdir ~/usr/ext
+use-ansible help
+(cd ~/usr/ext; git clone --branch stable-2.5 --recursive git://github.com/ansible/ansible.git ansible-stable-2.5)
+```
+
+## Configure git
+
+```
+cd ~/usr/thydel.d/helpers
+helper ansible
+source ~/usr/ext/ansible-stable-2.5/hacking/env-setup -q
+helper git-config
+```
+
+## Install my bashrc, my dotemacs
+
+```bash
+cd ~/usr/thydel.d/ar-my-bash-rc
+helper ansible
+bashrc-play.yml -i localhost, -c local -D
+cd ~/usr/thydel.d/ar-my-dotemacs
+dotemacs-play.yml -i localhost, -c local -D
+```
+
+# pass and GPG
+
+On `tdews2`
+
+## Install pass and get pass data
+
+```bash
+sudo aptitude install pass
+# git -C ~/usr/perso.d clone pass-store
+ln -s ~/usr/perso.d/pass-store ~/.password-store 
+pass git status
+```
+
+## Conf gpg-agent
+
+```bash
+sudo aptitude install pinentry-curses pinentry-tty
+echo pinentry-program /usr/bin/pinentry-tty >> ~/.gnupg/gpg-agent.conf
+echo default-cache-ttl $((3600 * 24)) >> ~/.gnupg/gpg-agent.conf
+echo max-cache-ttl $((3600 * 24 * 7)) >> ~/.gnupg/gpg-agent.conf
+```
+
+## Get my GPG key, stretch
+
+https://www.debuntu.org/how-to-importexport-gpg-key-pair/
+
+```bash
+ssh $some gpg2 --export --armor thy | gpg2 --import
+ssh -t $some gpg2 --export-secret-keys --armor --output tmp.gpg thy
+rsync $some:tmp.gpg .
+gpg2 --import tmp.gpg; rm tmp.gpg
+# rm ~/.gnupg/trustdb.gpg
+ssh $some gpg2 --export-ownertrust | gpg2 --import-ownertrust
+```
+
+# Uses `package-activated-list` from an already configured workstation
+
+```bash
+ssh $from emacsclient -s $USER --eval package-activated-list | tr -d '()' | tr ' ' '\n' | sort -u \
+| xargs -i echo $'emacsclient -s $USER --eval "(package-install \'{})"'
+```
+
+# GSTM
+
+```bash
+sudo aptitude install gstm
+```
+
+Manually add entries from private repo
