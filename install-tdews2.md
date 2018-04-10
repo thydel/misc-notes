@@ -1,3 +1,56 @@
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Got a new old desktop](#got-a-new-old-desktop)
+- [Makes an installable USB key](#makes-an-installable-usb-key)
+- [Default install as usual](#default-install-as-usual)
+- [First local steps](#first-local-steps)
+    - [sudo](#sudo)
+- [first remote steps](#first-remote-steps)
+    - [install key](#install-key)
+    - [find MAC (7c:d3:0a:2f:c2:21)](#find-mac-7cd30a2fc221)
+- [Usual DHCP and DNS setup](#usual-dhcp-and-dns-setup)
+- [Add and use `x2x` from main WS](#add-and-use-x2x-from-main-ws)
+- [install some packages](#install-some-packages)
+    - [Setup apt sources](#setup-apt-sources)
+    - [Fix missing firmware](#fix-missing-firmware)
+    - [Basic install](#basic-install)
+    - [Install required tools](#install-required-tools)
+    - [Install requires libs](#install-requires-libs)
+        - [ansible](#ansible)
+    - [Install chrome](#install-chrome)
+    - [Install acroread](#install-acroread)
+- [Use staff group](#use-staff-group)
+- [Temporarily fix gnome-keyring nightmare](#temporarily-fix-gnome-keyring-nightmare)
+- [Get private stuff](#get-private-stuff)
+- [Get my repositories](#get-my-repositories)
+    - [Get Helpers](#get-helpers)
+    - [Get all repositories](#get-all-repositories)
+- [Install and use some local tools](#install-and-use-some-local-tools)
+    - [`git-dates` require `propagate-date`](#git-dates-require-propagate-date)
+    - [Install ansible simple way](#install-ansible-simple-way)
+    - [Configure git](#configure-git)
+    - [Install my bashrc, my dotemacs](#install-my-bashrc-my-dotemacs)
+- [pass and GPG](#pass-and-gpg)
+    - [Install pass and get pass data](#install-pass-and-get-pass-data)
+    - [Conf gpg-agent](#conf-gpg-agent)
+    - [Get my GPG key, stretch](#get-my-gpg-key-stretch)
+- [Uses `package-activated-list` from an already configured workstation](#uses-package-activated-list-from-an-already-configured-workstation)
+- [permanent fix gnome-keyring nightmare](#permanent-fix-gnome-keyring-nightmare)
+- [Minimal sshd config](#minimal-sshd-config)
+- [Get epi repositories](#get-epi-repositories)
+    - [Get bootstrap dir](#get-bootstrap-dir)
+    - [Get all repositories](#get-all-repositories-1)
+- [Install ssh-config](#install-ssh-config)
+- [Install screen configs](#install-screen-configs)
+- [Chrome conf](#chrome-conf)
+    - [GSTM](#gstm)
+    - [Proxy helper](#proxy-helper)
+    - [Add Epiconcept person to chrome](#add-epiconcept-person-to-chrome)
+    - [laucher](#laucher)
+
+<!-- markdown-toc end -->
+
 # Got a new old desktop
 
 See [HP 260 G2 Desktop Mini PC - Specifications][]
@@ -33,7 +86,7 @@ Note:
 Login using mate and use `su` add us to `sudo` group
 ```
 su
-adduser thy sudo
+adduser $USER sudo
 exit
 mate-session-save --logout
 ```
@@ -162,9 +215,9 @@ sudo gdebi -n AdbeRdr9.5.5-1_i386linux_enu.deb
 
 On `tdews2`
 ```
-sudo adduser thy staff
+sudo adduser $USER staff
 newgrp staff
-newgrp thy
+newgrp $USER
 ```
 
 # Temporarily fix gnome-keyring nightmare
@@ -277,8 +330,8 @@ echo max-cache-ttl $((3600 * 24 * 7)) >> ~/.gnupg/gpg-agent.conf
 https://www.debuntu.org/how-to-importexport-gpg-key-pair/
 
 ```bash
-ssh $some gpg2 --export --armor thy | gpg2 --import
-ssh -t $some gpg2 --export-secret-keys --armor --output tmp.gpg thy
+ssh $some gpg2 --export --armor $USER | gpg2 --import
+ssh -t $some gpg2 --export-secret-keys --armor --output tmp.gpg $USER
 rsync $some:tmp.gpg .
 gpg2 --import tmp.gpg; rm tmp.gpg
 # rm ~/.gnupg/trustdb.gpg
@@ -292,10 +345,102 @@ ssh $from emacsclient -s $USER --eval package-activated-list | tr -d '()' | tr '
 | xargs -i echo $'emacsclient -s $USER --eval "(package-install \'{})"'
 ```
 
-# GSTM
+# permanent fix gnome-keyring nightmare
+
+```
+cd ~/usr/thydel.d/misc-play
+helper ansible
+user-ssh-agent.yml
+systemctl --user enable user-ssh-agent
+systemctl --user start user-ssh-agent
+```
+
+# Minimal sshd config
+
+```
+sudo adduser $USER ssh
+
+echo PasswordAuthentication no | sudo tee -a /etc/ssh/sshd_config
+echo AllowGroups ssh | sudo tee -a /etc/ssh/sshd_config
+sudo service ssh restart
+```
+
+# Get epi repositories
+
+## Get bootstrap dir
+
+```
+echo -e 'Host thyepi.github.com\nIdentityFile ~/.ssh/t.delamare@epiconcept.fr\n'  >> ~/.ssh/config
+
+mkdir -p ~/usr/epipar.d
+git -C ~/usr/epipar.d clone git@thyepi.github.com:Epiconcept-Paris/infra-plays.git
+```
+
+## Get all repositories
+
+```
+cd ~/usr/epipar.d
+ln -s infra-plays/epipar.mk Makefile
+make epipar
+```
+
+# Install ssh-config
+
+# Install screen configs
+
+Uses [ar-my-screenrc](https://github.com/thydel/ar-my-screenrc)
+
+```
+helper ansible
+helper git-config
+sudo aptitude install whois # for mkpasswd
+screenrc-play.yml -i locahost, -c local -D
+```
+
+Uses [infra-thy](https://github.com/Epiconcept-Paris/infra-thy)
+
+```
+helper ansible # to install latest ansible
+helper ansible/help # to install ansible-2.2 (for make all, aka dependencies)
+make all
+pass dummy
+helper git-config
+helper run dif init-play-dir vault_pass=vault/thy
+sudo aptitude install whois # for mkpasswd
+screen-remotes-oxa.yml -i localhost, -c local -DC # require ansible-2.4
+screen-remotes.yml -i localhost, -c local -DC
+```
+
+# Chrome conf
+
+## GSTM
 
 ```bash
 sudo aptitude install gstm
 ```
 
+Manual launcher setup `env SSH_AUTH_SOCK=/run/user/1000/user-ssh-agent.socket gstm`
+
 Manually add entries from private repo
+
+## Proxy helper
+
+Configure proxy helper to use Socks for Epiconcpet account
+
+## Add Epiconcept person to chrome
+
+No non manual way currently known.
+
+## laucher
+
+```
+google-chrome-beta --profile-directory=Default %U
+google-chrome-beta --profile-directory='Profile 1' %U
+```
+
+Choose different icons for different profiles
+
+```
+mkdir /usr/local/share/icons
+rsync -av ~/usr/perso.d/documents/icons/ /usr/local/share/icons
+```
