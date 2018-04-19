@@ -444,3 +444,16 @@ Choose different icons for different profiles
 mkdir /usr/local/share/icons
 rsync -av ~/usr/perso.d/documents/icons/ /usr/local/share/icons
 ```
+
+# Use autossh to start a reverse ssh tunnel
+
+As `root`, assuming `revssh1` is as ssh host define in `/root/.ssh/config`
+
+```
+aptitude install autossh
+mkdir -p /etc/autossh
+proot -w /etc/autossh ssh-keygen -f revssh1-key
+# copy /etc/autossh/revssh1-key.pub to revssh1
+echo '#!/usr/bin/bash' > /etc/autossh/revssh1
+echo autossh -f revssh1 -R 22001:localhost:22 -N >> /etc/autossh/revssh1
+```
