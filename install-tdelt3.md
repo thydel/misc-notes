@@ -104,7 +104,7 @@ ssh tdelt3 sudo apt-file update
 ## Fix missing firmware
 
 ```
-zgrep firmware /var/log/kernl.log* | grep failed
+zgrep firmware /var/log/kern.log* | grep failed
 list-missing-firmware-file | xargs apt-file search {}
 list-missing-firmware-pkg  | xargs aptitude install {}
 ```
