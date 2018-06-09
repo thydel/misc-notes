@@ -303,6 +303,16 @@ cd ~/usr/thydel.d/ar-my-dotemacs
 dotemacs-play.yml -i localhost, -c local -D
 ```
 
+# permanent fix gnome-keyring nightmare
+
+```
+cd ~/usr/thydel.d/misc-play
+helper ansible
+user-ssh-agent.yml
+systemctl --user enable user-ssh-agent
+systemctl --user start user-ssh-agent
+```
+
 # pass and GPG
 
 On `tdews2`
@@ -333,26 +343,17 @@ https://www.debuntu.org/how-to-importexport-gpg-key-pair/
 ssh $some gpg2 --export --armor $USER | gpg2 --import
 ssh -t $some gpg2 --export-secret-keys --armor --output tmp.gpg $USER
 rsync $some:tmp.gpg .
-gpg2 --import tmp.gpg; rm tmp.gpg
+gpg2 --import tmp.gpg; rm tmp.gpg; ssh $some rm tmp.gpg
 # rm ~/.gnupg/trustdb.gpg
 ssh $some gpg2 --export-ownertrust | gpg2 --import-ownertrust
 ```
 
-# Uses `package-activated-list` from an already configured workstation
+# Uses emacs `package-activated-list` from an already configured workstation
 
 ```bash
+emacsclient -s $USER --eval "(list-packages)"
 ssh $from emacsclient -s $USER --eval package-activated-list | tr -d '()' | tr ' ' '\n' | sort -u \
 | xargs -i echo $'emacsclient -s $USER --eval "(package-install \'{})"'
-```
-
-# permanent fix gnome-keyring nightmare
-
-```
-cd ~/usr/thydel.d/misc-play
-helper ansible
-user-ssh-agent.yml
-systemctl --user enable user-ssh-agent
-systemctl --user start user-ssh-agent
 ```
 
 # Minimal sshd config
