@@ -455,6 +455,9 @@ aptitude install autossh
 mkdir -p /etc/autossh
 proot -w /etc/autossh ssh-keygen -f revssh1-key
 # copy /etc/autossh/revssh1-key.pub to revssh1
-echo '#!/usr/bin/bash' > /etc/autossh/revssh1
+echo '#!/bin/bash' > /etc/autossh/revssh1
 echo autossh -f revssh1 -R 22001:localhost:22 -N >> /etc/autossh/revssh1
+chmod +x /etc/autossh/revssh1
+echo -e '# -*- Mode: ssh-config; -*-\n\nHost revssh1' > /root/.ssh/config
+echo -e '  Hostname h.d.t\n  User u\n  IdentityFile /etc/autossh/revssh1-key' >> /root/.ssh/config
 ```
