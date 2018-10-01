@@ -186,7 +186,7 @@ Note:
 ## Basic install
 
 ```
-ssh tdelt4 sudo aptitude install htop hdparm net-tools
+ssh tdelt4 sudo aptitude install htop hdparm net-tools proot
 ssh tdelt4 sudo aptitude install -y thunderbird thunderbird-l10n-fr # thunderbird-enigmail
 ```
 
@@ -226,6 +226,42 @@ sudo aptitude update
 which gdebi || sudo aptitude install -y gdebi
 sudo aptitude install -y libxml2:i386 libstdc++6:i386
 sudo gdebi -n AdbeRdr9.5.5-1_i386linux_enu.deb
+```
+
+# chrome remote desktop
+
+## chrome-remote-desktop
+
+```
+sudo mkdir -p /usr/local/dist
+sudo proot -w /usr/local/dist wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
+sudo gdebi --non-interactive  /usr/local/dist/chrome-remote-desktop_current_amd64.deb
+```
+
+## xfce4
+
+If `xfce` was not choosen during install
+
+```
+sudo aptitude install xfce4
+sudo aptitude install xfce4-cpufreq-plugin xfce4-cpugraph-plugin xfce4-datetime-plugin xfce4-diskperf-plugin xfce4-datetime-plugin xfce4-goodies xfce4-netload-plugin xfce4-places-plugin xfce4-terminal xfce4-xkb-plugin
+```
+
+# chrome remote desktop session
+
+```
+sudo adduser $USER chrome-remote-desktop
+echo 'env -u DBUS_SESSION_BUS_ADDRESS xfce4-session' > ~/.chrome-remote-desktop-session
+
+crdd=/opt/google/chrome-remote-desktop
+sudo proot -w $crdd cp -p chrome-remote-desktop{,.00}
+ed='/^DEFAULT_SIZE_NO_RANDR/s/^/#/\na\nDEFAULT_SIZE_NO_RANDR = "1920x1080"\n.\nwq'
+echo -e $ed | sudo proot -w $crdd ed chrome-remote-desktop
+
+sudo service chrome-remote-desktop start
+
+echo to enable remote connection
+echo Use https://chrome.google.com/webstore/detail/chrome-remote-desktop/gbchcmhmhahfdphkhkmpfmihenigjmpp
 ```
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
