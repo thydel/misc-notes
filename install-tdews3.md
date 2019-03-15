@@ -129,6 +129,19 @@ echo 'aptitude install -y deborphan; deborphan' | sudo dash
 echo 'aptitude install -y apt-file; apt-file update' | sudo dash
 ```
 
+# Allow remote cryproot-unlock
+
+```
+sudo aptitude insstall busyox dropbear dropbear-initramfs
+sudo rsync -av ~/.ssh/authorized_keys /etc/dropbear-initramfs
+sudo update-initramfs -u
+```
+
+From my ws
+```
+sh -o StrictHostKeyChecking=no -l root tdews3 cryproot-unlock
+```
+
 # More remote steps
 
 ## install emacs
@@ -183,7 +196,7 @@ Note:
 
 ```
 : ssh tdelt4 sudo aptitude install firmware-misc-nonfree firmware-realtek
-: ssh tdews3 sudo aptitude install firmware-amd-graphic
+: ssh tdews3 sudo aptitude install firmware-amd-graphics
 ```
 
 ## Basic install
@@ -240,6 +253,7 @@ sudo gdebi -n AdbeRdr9.5.5-1_i386linux_enu.deb
 ```
 sudo mkdir -p /usr/local/dist
 sudo proot -w /usr/local/dist wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
+sudo aptitude install gdebi
 sudo gdebi --non-interactive  /usr/local/dist/chrome-remote-desktop_current_amd64.deb
 ```
 
