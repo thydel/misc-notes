@@ -258,11 +258,29 @@ sudo proot -w $crdd cp -p chrome-remote-desktop{,.00}
 ed='/^DEFAULT_SIZE_NO_RANDR/s/^/#/\na\nDEFAULT_SIZE_NO_RANDR = "1920x1080"\n.\nwq'
 echo -e $ed | sudo proot -w $crdd ed chrome-remote-desktop
 
+sudo ln -ls /usr/bin/Xvfb /usr/bin/Xvfb-randr
+
 sudo service chrome-remote-desktop start
 
 echo to enable remote connection
 echo Use https://chrome.google.com/webstore/detail/chrome-remote-desktop/gbchcmhmhahfdphkhkmpfmihenigjmpp
 ```
+
+# Fix ayh9k nightmare
+
+- [Thread: Atheros AR9485 ath9k connectivity problems][]
+- [exemples-d-utilisation-de-nmcli][]
+
+```
+echo "options ath9k nohwcrypt=1" | sudo tee -a /etc/modprobe.d/ath9k.conf
+echo ath9k | sudo tee -a /etc/modules
+```
+
+[exemples-d-utilisation-de-nmcli]:
+	https://debian-facile.org/doc:reseau:network-manager#exemples-d-utilisation-de-nmcli "debian-facile.org"
+
+[Thread: Atheros AR9485 ath9k connectivity problems]:
+	https://ubuntuforums.org/showthread.php?t=2233283 "ubuntuforums.org"
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
