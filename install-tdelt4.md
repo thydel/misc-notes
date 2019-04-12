@@ -282,11 +282,9 @@ echo ath9k | sudo tee -a /etc/modules
 [Thread: Atheros AR9485 ath9k connectivity problems]:
 	https://ubuntuforums.org/showthread.php?t=2233283 "ubuntuforums.org"
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 # Use staff group
 
-On `tdews2`
+On `tdelt4`
 ```
 sudo adduser $USER staff
 newgrp staff
@@ -295,16 +293,20 @@ newgrp $USER
 
 # Temporarily fix gnome-keyring nightmare
 
-On `tdews2`
+On `tdelt4`
 ```
 ssh-agent > /tmp/.ssha
 . /tmp/.ssha
 ```
 
-On `tdews2`
+On `tdelt4`
+
 # Get private stuff
 
 ```
+echo -e 'Match OriginalHost git.$tld\n  HostName $hostname\n  Port $port' | tee -a ~/.ssh/config
+perso=git.$tld
+
 (
 	mkdir -p ~/usr/perso.d;
 	cd ~/usr/perso.d;
@@ -316,7 +318,7 @@ On `tdews2`
 
 # Get my repositories
 
-On `tdews2`
+On `tdelt4`
 
 ## Get Helpers
 
@@ -339,7 +341,7 @@ make thydel
 
 # Install and use some local tools
 
-On `tdews2`
+On `tdelt4`
 
 ## `git-dates` require `propagate-date`
 
@@ -354,7 +356,7 @@ git-dates run dates
 ```
 mkdir ~/usr/ext
 use-ansible help
-(cd ~/usr/ext; git clone --branch stable-2.5 --recursive git://github.com/ansible/ansible.git ansible-stable-2.5)
+(cd ~/usr/ext; git clone --branch stable-2.7 --recursive git://github.com/ansible/ansible.git ansible-stable-2.7)
 ```
 
 ## Configure git
@@ -362,7 +364,7 @@ use-ansible help
 ```
 cd ~/usr/thydel.d/helpers
 helper ansible
-source ~/usr/ext/ansible-stable-2.5/hacking/env-setup -q
+source ~/usr/ext/ansible-stable-2.7/hacking/env-setup -q
 helper git-config
 ```
 
@@ -386,9 +388,60 @@ systemctl --user enable user-ssh-agent
 systemctl --user start user-ssh-agent
 ```
 
+# Install ssh-config
+
+```
+make -C ~/usr/thydel.d/ssh-config make
+proot -w ~/.ssh ln -s ssh-config config
+```
+
+# Get epi repositories
+
+## Get bootstrap dir
+
+```
+echo -e 'Host thyepi.github.com\nIdentityFile ~/.ssh/t.delamare@epiconcept.fr\n'  >> ~/.ssh/config
+
+mkdir -p ~/usr/epipar.d
+git -C ~/usr/epipar.d clone git@thyepi.github.com:Epiconcept-Paris/infra-plays.git
+```
+
+## Get all repositories
+
+```
+cd ~/usr/epipar.d
+ln -s infra-plays/epipar.mk Makefile
+make epipar
+```
+
+# Install screen configs
+
+Uses [ar-my-screenrc](https://github.com/thydel/ar-my-screenrc)
+
+```
+helper ansible
+helper git-config
+sudo aptitude install whois # for mkpasswd
+screenrc-play.yml -i locahost, -c local -D
+```
+
+Uses [infra-thy](https://github.com/Epiconcept-Paris/infra-thy)
+
+```
+helper ansible # to install latest ansible
+helper ansible/help # to install ansible-2.2 (for make all, aka dependencies)
+make all
+pass dummy
+helper git-config
+helper run dif init-play-dir vault_pass=vault/thy
+sudo aptitude install whois # for mkpasswd
+screen-remotes-oxa.yml -i localhost, -c local -DC # require ansible-2.4
+screen-remotes.yml -i localhost, -c local -DC
+```
+
 # pass and GPG
 
-On `tdews2`
+On `tdelt4`
 
 ## Install pass and get pass data
 
@@ -439,51 +492,7 @@ echo AllowGroups ssh | sudo tee -a /etc/ssh/sshd_config
 sudo service ssh restart
 ```
 
-# Get epi repositories
-
-## Get bootstrap dir
-
-```
-echo -e 'Host thyepi.github.com\nIdentityFile ~/.ssh/t.delamare@epiconcept.fr\n'  >> ~/.ssh/config
-
-mkdir -p ~/usr/epipar.d
-git -C ~/usr/epipar.d clone git@thyepi.github.com:Epiconcept-Paris/infra-plays.git
-```
-
-## Get all repositories
-
-```
-cd ~/usr/epipar.d
-ln -s infra-plays/epipar.mk Makefile
-make epipar
-```
-
-# Install ssh-config
-
-# Install screen configs
-
-Uses [ar-my-screenrc](https://github.com/thydel/ar-my-screenrc)
-
-```
-helper ansible
-helper git-config
-sudo aptitude install whois # for mkpasswd
-screenrc-play.yml -i locahost, -c local -D
-```
-
-Uses [infra-thy](https://github.com/Epiconcept-Paris/infra-thy)
-
-```
-helper ansible # to install latest ansible
-helper ansible/help # to install ansible-2.2 (for make all, aka dependencies)
-make all
-pass dummy
-helper git-config
-helper run dif init-play-dir vault_pass=vault/thy
-sudo aptitude install whois # for mkpasswd
-screen-remotes-oxa.yml -i localhost, -c local -DC # require ansible-2.4
-screen-remotes.yml -i localhost, -c local -DC
-```
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 # Chrome conf
 
