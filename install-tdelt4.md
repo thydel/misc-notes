@@ -483,12 +483,43 @@ gpg2 --import tmp.gpg; rm tmp.gpg; ssh $some rm tmp.gpg
 ssh $some gpg2 --export-ownertrust | gpg2 --import-ownertrust
 ```
 
-# Uses emacs `package-activated-list` from an already configured workstation
+# Uses emacs packages
+
+## first try, `el-get`
+
+See [el-get](https://github.com/dimitri/el-get)
+
+```lisp
+(el-get-bundle elpa:markdown)
+(el-get-bundle elpa:markdown-toc)
+```
+
+## we need melpa
+
+```lisp
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(package-list-packages)
+```
+
+## second try `package-install`
+Or maybe just uses
+
+```lisp
+(package-install 'markdown-mode)
+(package-install 'markdown-toc)
+
+
+(package-install 's)
+(package-install 'dash)
+(package-install 'gh-md)
+```
+
+## uses `package-activated-list` from an already configured workstation
 
 ```bash
-emacsclient -s $USER --eval "(list-packages)"
-ssh $from emacsclient -s $USER --eval package-activated-list | tr -d '()' | tr ' ' '\n' | sort -u \
-| xargs -i echo $'emacsclient -s $USER --eval "(package-install \'{})"'
+ssh from emacsclient -s some --eval package-activated-list | tr -d '()' | tr ' ' '\n' | sort -u \
+| xargs -i echo $'emacsclient -s some --eval "(package-install \'{})"'
 ```
 
 # Minimal sshd config
