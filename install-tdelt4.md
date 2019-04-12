@@ -532,8 +532,6 @@ echo AllowGroups ssh | sudo tee -a /etc/ssh/sshd_config
 sudo service ssh restart
 ```
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 # Chrome conf
 
 ## GSTM
@@ -553,6 +551,13 @@ Configure proxy helper to use Socks for Epiconcpet account
 ## Add Epiconcept person to chrome
 
 No non manual way currently known.
+
+## Alternate CLI choice
+
+```
+sudo aptitude install autossh
+any-socks epi
+```
 
 ## laucher
 
