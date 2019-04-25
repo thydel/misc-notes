@@ -588,3 +588,10 @@ chmod +x /etc/autossh/revssh1
 echo -e '# -*- Mode: ssh-config; -*-\n\nHost revssh1' > /root/.ssh/config
 echo -e '  Hostname h.d.t\n  User u\n  IdentityFile /etc/autossh/revssh1-key' >> /root/.ssh/config
 ```
+
+# Corrects pulseaudio high CPU
+
+```
+echo 'load-module module-udev-detect tsched = 0' | sudo tee -a /etc/pulse/default.pa
+pulseaudio -k
+```
