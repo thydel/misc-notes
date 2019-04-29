@@ -6,16 +6,16 @@ Menu(Application/Settings/Window Manager), Tab(Focus), Choice(Focus follow mouse
 
 Menu(Application/Settings/Window Manager), Tab(keyboard)
 
+- Previous Workspace - Ctrl+Left
+- Next Workspace     - Ctrl+Right
+
 - Workspace [1-9 ] - Ctrl+Alt+[1-9]
 - Workspace 10     - Ctrl+Alt+0
 - Workspace 11     - Ctrl+Alt+[
 - Workspace 12     - Ctrl+Alt+]
 
-- Previous Workspace - Ctrl+Left
-- Next Workspace     - Ctrl+Right
-
-- Tile window to the left  - Shift+Ctrl+{
-- Tile window to the right - Shift+Ctrl+}
+- Move window to previous workspace - Shift+Ctrl+Left
+- Move window to next workspace     - Shift+Ctrl+Right
 
 - Move window to workspace 1  - Shift+Ctrl+Alt+!
 - Move window to workspace 2  - Shift+Ctrl+Alt+@
@@ -29,6 +29,9 @@ Menu(Application/Settings/Window Manager), Tab(keyboard)
 - Move window to workspace 10 - Shift+Ctrl+Alt+)
 - Move window to workspace 11 - Shift+Ctrl+Alt+{
 - Move window to workspace 12 - Shift+Ctrl+Alt+}
+
+- Tile window to the left  - Shift+Ctrl+{
+- Tile window to the right - Shift+Ctrl+}
 
 - Maximize window vertically  - Shift+Ctrl+V
 - Maximize window             - Shift+Ctrl+M
