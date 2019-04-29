@@ -33,7 +33,7 @@ Menu(Application/Settings/Window Manager), Tab(keyboard)
 - Tile window to the left  - Shift+Ctrl+{
 - Tile window to the right - Shift+Ctrl+}
 
-- Maximize window vertically  - Shift+Ctrl+V
+- Maximize window vertically  - Ctrl+Alt+V
 - Maximize window             - Shift+Ctrl+M
 - Hide window                 - Shift+Ctrl+H
 
