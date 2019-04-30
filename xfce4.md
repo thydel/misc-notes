@@ -41,8 +41,17 @@ Menu(Application/Settings/Window Manager), Tab(keyboard)
 
 # Window Manager Tweaks 
 
+## Hide hidden windows when cycling
+
 Menu(Application/Settings/Window Manager Tweaks), Tab(Cycling), Choice(Include hidden, False)
+
+## Don't wrap workspace
+
 Menu(Application/Settings/Window Manager Tweaks), Tab(Workspaces), Choice(Wrap workspaces when the first or last workspace is reached, False)
+
+## Focus when window raise
+
+Menu(Application/Settings/Window Manager Tweaks), Tab(Focus), Choice(Switch to window's workspace, True)
 
 # Application Shortcuts
 
