@@ -33,7 +33,7 @@ Menu(Application/Settings/Window Manager), Tab(keyboard)
 - Tile window to the left  - Shift+Ctrl+{
 - Tile window to the right - Shift+Ctrl+}
 
-- Maximize window vertically  - Ctrl+Alt+V
+- Maximize window vertically  - Ctrl+Alt+V (Shift-Ctrl-V is Paste in Terminal)
 - Maximize window             - Shift+Ctrl+M
 - Hide window                 - Shift+Ctrl+H
 
@@ -46,4 +46,8 @@ Menu(Application/Settings/Window Manager Tweaks), Tab(Workspaces), Choice(Wrap w
 
 # Application Shortcuts
 
-Menu(Application/Settings/Keyboard), Tab(Application Shortcuts), (/usr/bin/xfce4-terminal.wrapper, Shift+Ctrl+T)
+## Terminal
+
+Menu(Application/Settings/Keyboard), Tab(Application Shortcuts), (/usr/bin/xfce4-terminal.wrapper, Ctrl+Alt+T)
+
+Shift-Ctrl-T is "Open Tab" on Terminal
