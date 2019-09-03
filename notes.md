@@ -1,6 +1,8 @@
-<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-generate-toc again -->
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2019-09-03 compile git on stretch](#2019-09-03-compile-git-on-stretch)
+- [2018-03-23 use meld to commit only part of changes on a file in Git](#2018-03-23-use-meld-to-commit-only-part-of-changes-on-a-file-in-git)
 - [2017-09-13 Multiple application profiles](#2017-09-13-multiple-application-profiles)
     - [chrome](#chrome)
     - [firefox](#firefox)
@@ -23,13 +25,13 @@
     - [prefix all commit messages](#prefix-all-commit-messages)
     - [and merge in the receiving git repos](#and-merge-in-the-receiving-git-repos)
 - [2017-04-22 merge one git repos into another](#2017-04-22-merge-one-git-repos-into-another)
-    - [create an empty bare git repo](#create-an-empty-bare-git-repo)
-    - [push the hg repos to the new git repos](#push-the-hg-repos-to-the-new-git-repos)
-    - [clone the new git repos](#clone-the-new-git-repos)
-    - [make some changes](#make-some-changes)
-    - [move the whole tree into a subdirectory](#move-the-whole-tree-into-a-subdirectory)
+    - [create an empty bare git repo](#create-an-empty-bare-git-repo-1)
+    - [push the hg repos to the new git repos](#push-the-hg-repos-to-the-new-git-repos-1)
+    - [clone the new git repos](#clone-the-new-git-repos-1)
+    - [make some changes](#make-some-changes-1)
+    - [move the whole tree into a subdirectory](#move-the-whole-tree-into-a-subdirectory-1)
     - [optionally upgrade git](#optionally-upgrade-git)
-    - [and merge in the receiving git repos](#and-merge-in-the-receiving-git-repos)
+    - [and merge in the receiving git repos](#and-merge-in-the-receiving-git-repos-1)
 - [2017-04-14 Uses staff group on debian](#2017-04-14-uses-staff-group-on-debian)
 - [2017-04-14 View markdown files offline](#2017-04-14-view-markdown-files-offline)
 - [2017-03-15 way to run various stdout ansible callbacks](#2017-03-15-way-to-run-various-stdout-ansible-callbacks)
@@ -45,6 +47,19 @@
 - [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 <!-- markdown-toc end -->
+
+# 2019-09-03 compile git on stretch
+
+```
+aptitude install make libssl-dev libghc-zlib-dev libcurl4-gnutls-dev libexpat1-dev gettext unzip asciidoc docbook2x
+git clone git@github.com:git/git.git
+git -C git checkout -b compile-v2.23.0 v2.23.0
+make -C git prefix=/usr/local all doc info
+sudo make -C git prefix=/usr/local install install-doc install-html install-info
+sudo chmod g+w /usr/local/bin # because git install break debian staff setup
+hash -r # forget /usr/bin/git (git version 2.11.0)
+git --version # git version 2.23.0
+```
 
 # 2018-03-23 use meld to commit only part of changes on a file in Git
 
