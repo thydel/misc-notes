@@ -1,6 +1,7 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2019-09-13 use greek letter](#2019-09-13-use-greek-letter)
 - [2019-09-03 compile git on stretch](#2019-09-03-compile-git-on-stretch)
 - [2018-03-23 use meld to commit only part of changes on a file in Git](#2018-03-23-use-meld-to-commit-only-part-of-changes-on-a-file-in-git)
 - [2017-09-13 Multiple application profiles](#2017-09-13-multiple-application-profiles)
@@ -47,6 +48,13 @@
 - [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 <!-- markdown-toc end -->
+
+# 2019-09-13 use greek letter
+
+```
+xmodmap -pke | grep dead_greek | ifne -n xmodmap -pk | grep Control_R | awk '{print $1}' | xargs -i echo xmodmap -e '"keycode {} = dead_greek dead_greek dead_greek dead_greek"'
+setxkbmap # undo
+```
 
 # 2019-09-03 compile git on stretch
 
