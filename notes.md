@@ -2,13 +2,9 @@
 **Table of Contents**
 
 - [2019-09-20 sftp for ipwebcam](#2019-09-20-sftp-for-ipwebcam)
-- [2019-09-03 compile git on stretch](#2019-09-03-compile-git-on-stretch)
-- [2018-03-23 use meld to commit only part of changes on a file in Git](#2018-03-23-use-meld-to-commit-only-part-of-changes-on-a-file-in-git)
-- [2017-09-13 Multiple application profiles](#2017-09-13-multiple-application-profiles)
-    - [chrome](#chrome)
-    - [firefox](#firefox)
-- [2017-08-02 run a SSH server on Chrome OS](#2017-08-02-run-a-ssh-server-on-chrome-os)
-- [2017-08-02 Prevents chromeos to unmount USB key when suspending](#2017-08-02-prevents-chromeos-to-unmount-usb-key-when-suspending)
+- [left window is the copy of the stash version](#left-window-is-the-copy-of-the-stash-version)
+- [rigth window is the working dir version](#rigth-window-is-the-working-dir-version)
+- [apply whatever selected changes from the left to the rigth, save and quit](#apply-whatever-selected-changes-from-the-left-to-the-rigth-save-and-quit)
 - [2017-06-25 export chrome passwords](#2017-06-25-export-chrome-passwords)
     - [setting the `Password import and export` flag should be enuf](#setting-the-password-import-and-export-flag-should-be-enuf)
     - [But Chrome 59 no longer displays the password Export button](#but-chrome-59-no-longer-displays-the-password-export-button)
@@ -49,6 +45,7 @@
 
 <!-- markdown-toc end -->
 
+
 # 2019-09-20 sftp for ipwebcam
 
 Better way
@@ -87,6 +84,13 @@ service ssh restart
 
 install -o ipwebcam -g ipwebcam -m 700 -d ~ipwebcam/.ssh
 install -o ipwebcam -g ipwebcam -m 600 ~/.ssh/authorized_keys ~ipwebcam/.ssh
+```
+
+# 2019-09-13 use greek letter
+
+```
+xmodmap -pke | grep dead_greek | ifne -n xmodmap -pk | grep Control_R | awk '{print $1}' | xargs -i echo xmodmap -e '"keycode {} = dead_greek dead_greek dead_greek dead_greek"'
+setxkbmap # undo
 ```
 
 # 2019-09-03 compile git on stretch
