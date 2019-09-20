@@ -1,6 +1,7 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2019-09-20 sftp for ipwebcam](#2019-09-20-sftp-for-ipwebcam)
 - [2019-09-03 compile git on stretch](#2019-09-03-compile-git-on-stretch)
 - [2018-03-23 use meld to commit only part of changes on a file in Git](#2018-03-23-use-meld-to-commit-only-part-of-changes-on-a-file-in-git)
 - [2017-09-13 Multiple application profiles](#2017-09-13-multiple-application-profiles)
@@ -47,6 +48,46 @@
 - [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 <!-- markdown-toc end -->
+
+# 2019-09-20 sftp for ipwebcam
+
+Better way
+
+```
+adduser  --gecos 'ipwebcam for sftp' ipwebcam --shell /usr/bin/mysecureshell
+echo "Match User=ipwebcam
+  PasswordAuthentication yes
+  AllowGroups ipwebcam
+  PasswordAuthentication no
+  AllowTCPForwarding no
+  X11Forwarding no" >> /etc/ssh/sshd_config
+
+service ssh restart
+
+install -o ipwebcam -g ipwebcam -m 700 -d ~ipwebcam/.ssh
+install -o ipwebcam -g ipwebcam -m 600 ~/.ssh/authorized_keys ~ipwebcam/.ssh
+```
+
+Firts try
+
+```
+groupadd -r sftp_users
+adduser --home /home/sftp/ipwebcam --gecos 'ipwebcam for sftp' ipwebcam
+usermod -G sftp_users ipwebcam
+
+echo "AllowGroups sftp_users
+Match user ipwebcam
+  PasswordAuthentication yes
+  ChrootDirectory /home/sftp
+  ForceCommand internal-sftp
+  AllowTCPForwarding no
+  X11Forwarding no" >> /etc/ssh/sshd_config
+
+service ssh restart
+
+install -o ipwebcam -g ipwebcam -m 700 -d ~ipwebcam/.ssh
+install -o ipwebcam -g ipwebcam -m 600 ~/.ssh/authorized_keys ~ipwebcam/.ssh
+```
 
 # 2019-09-03 compile git on stretch
 
