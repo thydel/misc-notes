@@ -1,10 +1,16 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2019-09-23 install ripgrep](#2019-09-23-install-ripgrep)
 - [2019-09-20 sftp for ipwebcam](#2019-09-20-sftp-for-ipwebcam)
-- [left window is the copy of the stash version](#left-window-is-the-copy-of-the-stash-version)
-- [rigth window is the working dir version](#rigth-window-is-the-working-dir-version)
-- [apply whatever selected changes from the left to the rigth, save and quit](#apply-whatever-selected-changes-from-the-left-to-the-rigth-save-and-quit)
+- [2019-09-13 use greek letter](#2019-09-13-use-greek-letter)
+- [2019-09-03 compile git on stretch](#2019-09-03-compile-git-on-stretch)
+- [2018-03-23 use meld to commit only part of changes on a file in Git](#2018-03-23-use-meld-to-commit-only-part-of-changes-on-a-file-in-git)
+- [2017-09-13 Multiple application profiles](#2017-09-13-multiple-application-profiles)
+    - [chrome](#chrome)
+    - [firefox](#firefox)
+- [2017-08-02 run a SSH server on Chrome OS](#2017-08-02-run-a-ssh-server-on-chrome-os)
+- [2017-08-02 Prevents chromeos to unmount USB key when suspending](#2017-08-02-prevents-chromeos-to-unmount-usb-key-when-suspending)
 - [2017-06-25 export chrome passwords](#2017-06-25-export-chrome-passwords)
     - [setting the `Password import and export` flag should be enuf](#setting-the-password-import-and-export-flag-should-be-enuf)
     - [But Chrome 59 no longer displays the password Export button](#but-chrome-59-no-longer-displays-the-password-export-button)
@@ -45,6 +51,14 @@
 
 <!-- markdown-toc end -->
 
+# 2019-09-23 install ripgrep
+
+```
+curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.1/ripgrep_11.0.1_amd64.deb
+install ripgrep_11.0.1_amd64.deb /usr/local/dist
+sudo dpkg -i /usr/local/dist/ripgrep_11.0.1_amd64.deb
+dpkg -L ripgrep
+```
 
 # 2019-09-20 sftp for ipwebcam
 
