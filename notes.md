@@ -2,6 +2,8 @@
 **Table of Contents**
 
 - [2019-09-20 sftp for ipwebcam](#2019-09-20-sftp-for-ipwebcam)
+- [2019-09-13 use greek letter](#2019-09-13-use-greek-letter)
+- [2019-09-03 compile git on stretch](#2019-09-03-compile-git-on-stretch)
 - [left window is the copy of the stash version](#left-window-is-the-copy-of-the-stash-version)
 - [rigth window is the working dir version](#rigth-window-is-the-working-dir-version)
 - [apply whatever selected changes from the left to the rigth, save and quit](#apply-whatever-selected-changes-from-the-left-to-the-rigth-save-and-quit)
