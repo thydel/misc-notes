@@ -51,6 +51,23 @@
 
 <!-- markdown-toc end -->
 
+# 2019-10-04 track all untracked remote
+
+```
+gitrem () { git for-each-ref --format='%(refname)' refs/remotes/origin | grep -v /HEAD | cut -d/ -f4; }
+gitloc () { git for-each-ref --format='%(refname)' refs/heads/ | cut -d/ -f3; }
+gittab () { comm -23 <(gitrem) <(gitloc) | xargs -ri echo git branch -t {} origin/{}; }
+```
+
+For gitconfig alias
+
+```
+[alias]
+	lrb = !git for-each-ref --format='%(refname)' refs/remotes/origin | grep -v /HEAD | cut -d/ -f4
+	llb = !git for-each-ref --format='%(refname)' refs/heads/ | cut -d/ -f3
+	tab = !bash -c 'comm -23 <(git lrb) <(git llb) | xargs -ri echo git branch -t {} origin/{}'
+```
+
 # 2019-09-23 install ripgrep
 
 ```
