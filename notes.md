@@ -1,6 +1,8 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2019-10-16 compile git on debian9.11](#2019-10-16-compile-git-on-debian911)
+- [2019-10-04 track all untracked remote](#2019-10-04-track-all-untracked-remote)
 - [2019-09-23 install ripgrep](#2019-09-23-install-ripgrep)
 - [2019-09-20 sftp for ipwebcam](#2019-09-20-sftp-for-ipwebcam)
 - [2019-09-13 use greek letter](#2019-09-13-use-greek-letter)
@@ -50,6 +52,32 @@
 - [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 <!-- markdown-toc end -->
+
+# 2019-10-16 compile git on debian9.11
+
+See [Error on "make" #303][]
+
+```
+sudo apt-get purge libssl-dev
+sudo apt-get install libssl1.0-dev
+```
+
+Anecdotal pkg
+
+```
+sudo aptitude install docbook2x
+```
+
+Then as usual
+
+```
+make configure
+./configure --prefix=/usr/local
+make all doc info
+sudo make install install-doc install-html install-info
+```
+
+[Error on "make" #303]: https://github.com/rauc/rauc/issues/303 "github.com issue"
 
 # 2019-10-04 track all untracked remote
 
