@@ -68,6 +68,14 @@ Anecdotal pkg
 sudo aptitude install docbook2x
 ```
 
+Get it
+
+```
+git clone git@github.com:git/git.git
+git -C git ls-remote --tags origin 'v2.2[2-4]*'
+git -C git checkout -b compile v2.23.0
+```
+
 Then as usual
 
 ```
