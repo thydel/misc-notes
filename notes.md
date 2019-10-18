@@ -1,6 +1,8 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2019-10-18 status of all git repos](#2019-10-18-status-of-all-git-repos)
+- [2019-10-18 collect all my awk script](#2019-10-18-collect-all-my-awk-script)
 - [2019-10-16 compile git on debian9.11](#2019-10-16-compile-git-on-debian911)
 - [2019-10-04 track all untracked remote](#2019-10-04-track-all-untracked-remote)
 - [2019-09-23 install ripgrep](#2019-09-23-install-ripgrep)
@@ -52,6 +54,28 @@
 - [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 <!-- markdown-toc end -->
+
+# 2019-10-18 status of all git repos
+
+```
+all-git () { locate -b \\.git | xargs dirname; }
+git-cmd () { xargs -i echo echo '\# {};' git -C {} "$@" | dash; }
+all-git | git-cmd status -s | factor-prefix.awk -v squeeze=1 -v filter="#"
+```
+
+Use [factor-prefix.awk][] to show only unclean repos
+
+[factor-prefix.awk]: https://github.com/thydel/misc-script/blob/master/factor-prefix.awk "github.com file"
+
+
+# 2019-10-18 collect all my awk script
+
+```
+uniq-basename () { locate .awk | grep thy | xargs basename -a | sort -u; }
+uniq-files () { xargs -i locate {} | grep -v -e .hg -e .svn -e \~  | xargs md5sum | sort | uniq -w32 | cut -c 35-; }
+collect () { mkdir -p ~/tmp/awk; xargs cp --backup=t -pft tmp/awk; }
+uniq-basename | uniq-files | collect
+```
 
 # 2019-10-16 compile git on debian9.11
 
