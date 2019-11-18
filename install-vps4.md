@@ -13,7 +13,7 @@ echo 127.0.0.1 vps4 | ssh $vps -l root tee -a /etc/hosts
 ## Install some package
 
 ```
-ssh $vps -l root aptitude install -y emacs perl
+ssh $vps -l root aptitude install -y emacs perl apt-file xauth
 ```
 
 ## bash helper
