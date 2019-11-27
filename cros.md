@@ -1,3 +1,13 @@
+# 2019-11-27
+
+- [How to find a Chromebook's end of life date?][]
+- [Auto Update policy][]
+
+[How to find a Chromebook's end of life date?]:
+	https://www.reddit.com/r/chromeos/comments/8558zu/how_to_find_a_chromebooks_end_of_life_date/ "reddit.com"
+
+[Auto Update policy]: https://support.google.com/chrome/a/answer/6220366?hl=en "support.google.com"
+
 # 2019-11-26
 
 ## Disable the trackpad
