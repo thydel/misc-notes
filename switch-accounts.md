@@ -77,8 +77,12 @@ run () { declare -f $1; echo $@; }
 run list thy | ssh tde-ws -l thy env TMPDIR=$TMPDIR bash | use thy | dash
 ```
 
-# Install local stuff
+# Bootstrap local stuff
 
 ```
 (cd ~/usr/thydel.d/helpers; ./helper.mk install)
+make -C ~/usr/thydel.d/ansible-cfg install
+use-ansible help
+(cd /usr/local/ext && test -d ansible-stable-2.9 || git clone --branch stable-2.9 --recursive git://github.com/ansible/ansible.git ansible-stable-2.9)
+(cd ~/usr/thydel.d/helpers; . <(use-ansible); helper git-config) # git global conf, once from any git repos
 ```
