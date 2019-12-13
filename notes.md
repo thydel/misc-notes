@@ -1,6 +1,7 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2019-12-13 use diceware](#2019-12-13-use-diceware)
 - [2019-10-18 status of all git repos](#2019-10-18-status-of-all-git-repos)
 - [2019-10-18 collect all my awk script](#2019-10-18-collect-all-my-awk-script)
 - [2019-10-16 compile git on debian9.11](#2019-10-16-compile-git-on-debian911)
@@ -54,6 +55,21 @@
 - [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 <!-- markdown-toc end -->
+
+# 2019-12-13 use diceware
+
+See [Password Strength][] and [French word list][]
+
+```
+sudo aptitude install diceware
+diceware
+git clone https://github.com/chmduquesne/diceware-fr
+sudo cp diceware-fr/diceware-fr-5-jets.txt /usr/lib/python2.7/dist-packages/diceware/wordlists/wordlist_fr.txt
+diceware -w fr
+```
+
+[Password Strength]: https://xkcd.com/936/ "xkcd.com"
+[French word list]: https://github.com/chmduquesne/diceware-fr "github.com"
 
 # 2019-10-18 status of all git repos
 
