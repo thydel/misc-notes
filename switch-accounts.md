@@ -85,4 +85,41 @@ make -C ~/usr/thydel.d/ansible-cfg install
 use-ansible help
 (cd /usr/local/ext && test -d ansible-stable-2.9 || git clone --branch stable-2.9 --recursive git://github.com/ansible/ansible.git ansible-stable-2.9)
 (cd ~/usr/thydel.d/helpers; . <(use-ansible); helper git-config) # git global conf, once from any git repos
+chdir ~/usr/thydel.d/git-store-dates ./git-store-dates.mk install
 ```
+
+# Uses pass
+
+```
+sudo aptitude install gpgpv2 pass
+ln -s usr/perso.d/pass-store .password-store
+```
+
+# Get my GPG key
+
+```
+ssh $clone gpg --export --armor thy | gpg --import
+ssh -t $clone gpg --export-secret-keys --armor --output tmp.gpg thy
+rsync -av $clone:tmp.gpg .
+mkdir -p ~/.gnupg/private-keys-v1.d; chmod 700 ~/.gnupg/private-keys-v1.d # WTF!
+gpg --import tmp.gpg; rm tpm.gpg; ssh $clone rm tmp.gpg
+ssh $clone gpg --export-ownertrust | gpg --import-ownertrust
+```
+
+# chrome conf
+
+## Add Epiconcept person to chrome
+
+No non manual way currently known.
+
+## laucher
+
+```
+mkdir /usr/local/share/icons
+rsync -av ~/usr/perso.d/documents/icons/ /usr/local/share/icons
+```
+
+Choose different icons for different profiles
+
+- thydel `/usr/bin/google-chrome-stable --enable-dom-distiller --profile-directory=Default %U`
+- thyepi `/usr/bin/google-chrome-stable --enable-dom-distiller --profile-directory='Profile 1' %U`

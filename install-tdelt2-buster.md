@@ -312,9 +312,9 @@ echo max-cache-ttl $((3600 * 24 * 7)) >> ~/.gnupg/gpg-agent.conf
 ## Get my GPG key
 
 ```bash
-ssh some gpg2 --export --armor thy | gpg2 --import
-ssh -t some gpg2 --export-secret-keys --armor thy | gpg2 --import
-ssh some gpg2 --export-ownertrust | gpg2 --import-ownertrust
+ssh $clone gpg2 --export --armor thy | gpg2 --import
+ssh -t $clone gpg2 --export-secret-keys --armor thy | gpg2 --import
+ssh $clone gpg2 --export-ownertrust | gpg2 --import-ownertrust
 ```
 
 ## Get my GPG key, stretch
@@ -322,12 +322,12 @@ ssh some gpg2 --export-ownertrust | gpg2 --import-ownertrust
 https://www.debuntu.org/how-to-importexport-gpg-key-pair/
 
 ```bash
-ssh some gpg2 --export --armor thy | gpg2 --import
-ssh -t some gpg2 --export-secret-keys --armor --output tmp.gpg thy
-rsync some:tmp.gpg .
+ssh $clone gpg2 --export --armor thy | gpg2 --import
+ssh -t $clone gpg2 --export-secret-keys --armor --output tmp.gpg thy
+rsync $clone:tmp.gpg .
 gpg2 --import tmp.gpg; rm tpm.gpg
 # rm ~/.gnupg/trustdb.gpg
-ssh some gpg2 --export-ownertrust | gpg2 --import-ownertrust
+ssh $clone gpg2 --export-ownertrust | gpg2 --import-ownertrust
 ```
 
 # take care of ssh-agent
