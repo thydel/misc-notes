@@ -1,6 +1,7 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2019-12-20 propagate date](#2019-12-20-propagate-date)
 - [2019-12-13 use diceware](#2019-12-13-use-diceware)
 - [2019-10-18 status of all git repos](#2019-10-18-status-of-all-git-repos)
 - [2019-10-18 collect all my awk script](#2019-10-18-collect-all-my-awk-script)
@@ -55,6 +56,37 @@
 - [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 <!-- markdown-toc end -->
+
+# 2019-12-20 propagate date
+
+[How do I change folder timestamps recursively to the newest file?][]
+A long time ago I made a perl script ([propagate-date][]) to do that.
+
+But I still didn't find a ready made satisfying answer.
+
+So here is oneliner that will unconditionally recursively set the date
+of all dirs to the date of the most recent item
+
+```
+find -depth -type d | xargs -i echo 'ls -t {} | echo touch -r {}/$(head -n1) {}' | dash
+```
+
+And a slightly better version
+
+```
+touchr() { test "$1" -nt "$2" && echo touch -r "$1" "$2"; }; export -f touchr
+propadate-date() { find $1 -depth -type d | xargs -i echo 'ls -t {} | echo touchr {}/$(head -n1) {}' | dash | bash; }
+```
+
+- `propadate-date $dir`        will output the needed list of touch cmd
+- `propadate-date $dir | dash` will obviously play the generated script
+
+
+[propagate-date]:
+	https://github.com/thydel/propagate-date "github.com repo"
+
+[How do I change folder timestamps recursively to the newest file?]:
+	https://unix.stackexchange.com/questions/1524/how-do-i-change-folder-timestamps-recursively-to-the-newest-file "stackexchange.com"
 
 # 2019-12-13 use diceware
 
