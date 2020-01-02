@@ -1,6 +1,7 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2020-01-02 CROS TERMINFO](#2020-01-02-cros-terminfo)
 - [2019-12-20 propagate date](#2019-12-20-propagate-date)
 - [2019-12-13 use diceware](#2019-12-13-use-diceware)
 - [2019-10-18 status of all git repos](#2019-10-18-status-of-all-git-repos)
@@ -56,6 +57,15 @@
 - [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 <!-- markdown-toc end -->
+
+# 2020-01-02 CROS TERMINFO
+
+After installing chromebrew `xterm-256color` is undefefined
+
+```
+echo export TERMINFO=/etc/terminfo >> ~/.bashrc
+```
+
 
 # 2019-12-20 propagate date
 
