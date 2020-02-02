@@ -1,6 +1,7 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2020-02-02 mate icon with two displays](#2020-02-02-mate-icon-with-two-displays)
 - [2020-01-02 CROS TERMINFO](#2020-01-02-cros-terminfo)
 - [2019-12-20 propagate date](#2019-12-20-propagate-date)
 - [2019-12-13 use diceware](#2019-12-13-use-diceware)
@@ -57,6 +58,30 @@
 - [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 <!-- markdown-toc end -->
+
+# 2020-02-02 mate icon with two displays
+
+- Icons not on primary display
+
+```
+git clone https://github.com/WinEunuuchs2Unix/iconic.git WinEunuuchs2Unix/iconic
+sudo aptitude install yad
+sudo aptitude install wmctrl
+sudo aptitude install xdotool
+sudo aptitude install gvfs-bin
+```
+
+- OK, forget about it.
+
+```console
+thy@tdews3:~/usr/extern/WinEunuuchs2Unix/iconic$ ./iconic 1
+This tool has been deprecated, use 'gio info' instead.
+See 'gio help info' for more info.
+
+Moving Desktop Icons to monitor: 1
+./iconic: line 466: ColSize / MonIconColumns : division by 0 (error token is "MonIconColumns ")
+```
+
 
 # 2020-01-02 CROS TERMINFO
 
