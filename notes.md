@@ -1,6 +1,7 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2020-02-02 light-locker does not work wake up](#2020-02-02-light-locker-does-not-work-wake-up)
 - [2020-02-02 mate icon with two displays](#2020-02-02-mate-icon-with-two-displays)
 - [2020-01-02 CROS TERMINFO](#2020-01-02-cros-terminfo)
 - [2019-12-20 propagate date](#2019-12-20-propagate-date)
@@ -58,6 +59,28 @@
 - [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 <!-- markdown-toc end -->
+
+# 2020-02-02 light-locker does not work wake up
+
+- See [light-locker does not work wake up #138][]
+
+```
+echo -e '/light-locker-command --lock/s//dm-tool switch-to-greeter/\nwq' | ed /usr/bin/xflock4
+```
+
+Nope!
+
+```
+Not running inside a display manager, XDG_SEAT_PATH not defined
+```
+
+And no more locking beside
+
+[light-locker does not work wake up #138]:
+	https://github.com/the-cavalry/light-locker/issues/138 "github.com issue"
+
+
+Undo and forget
 
 # 2020-02-02 mate icon with two displays
 
