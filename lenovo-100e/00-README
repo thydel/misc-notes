@@ -1,0 +1,15 @@
+export TERMINFO=/etc/terminfo
+
+removable=sdcard
+removable=usbkey
+
+sudo mount -o remount,exec /media/removable/$removable/
+sudo mount --bind /media/removable/$removable/local /usr/local
+
+ssh-agent screen -RdS thy
+
+sudo mkdir -p /tmp/.X11-unix
+sudo chmod -R 1777 /tmp/.X11-unix
+source ~/.sommelier.env
+initsommelier
+
