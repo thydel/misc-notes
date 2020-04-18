@@ -79,7 +79,7 @@ Get it
 ```
 git clone git@github.com:git/git.git
 git -C git ls-remote --tags origin 'v2.2[2-9]*'
-git -C git checkout -b compile v2.26.0
+git -C git checkout -b compile v2.26.1
 ```
 
 Then as usual
