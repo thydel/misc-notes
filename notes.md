@@ -1,6 +1,7 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2020-04-18 Compile git 2.26 on debian 9.11](#2020-04-18-compile-git-226-on-debian-911)
 - [2020-02-02 light-locker does not work wake up](#2020-02-02-light-locker-does-not-work-wake-up)
 - [2020-02-02 mate icon with two displays](#2020-02-02-mate-icon-with-two-displays)
 - [2020-01-02 CROS TERMINFO](#2020-01-02-cros-terminfo)
@@ -59,6 +60,36 @@
 - [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 <!-- markdown-toc end -->
+
+# 2020-04-18 Compile git 2.26 on debian 9.11
+
+```
+sudo apt-get purge libssl-dev
+sudo apt-get install libssl1.0-dev
+```
+
+Anecdotal pkg
+
+```
+sudo aptitude install docbook2x zlib1g-dev
+```
+
+Get it
+
+```
+git clone git@github.com:git/git.git
+git -C git ls-remote --tags origin 'v2.2[2-9]*'
+git -C git checkout -b compile v2.26.0
+```
+
+Then as usual
+
+```
+make configure
+./configure --prefix=/usr/local
+make all doc info
+sudo make install install-doc install-html install-info
+```
 
 # 2020-02-02 light-locker does not work wake up
 
