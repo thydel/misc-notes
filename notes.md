@@ -1,6 +1,7 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2020-04-25 Uses gh with two context](#2020-04-25-uses-gh-with-two-context)
 - [2020-04-18 Compile git 2.26 on debian 9.11](#2020-04-18-compile-git-226-on-debian-911)
 - [2020-02-02 light-locker does not work wake up](#2020-02-02-light-locker-does-not-work-wake-up)
 - [2020-02-02 mate icon with two displays](#2020-02-02-mate-icon-with-two-displays)
@@ -60,6 +61,30 @@
 - [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 <!-- markdown-toc end -->
+
+# 2020-04-25 Uses gh with two context
+
+```
+wget https://github.com/cli/cli/releases/download/v0.7.0/gh_0.7.0_linux_amd64.deb
+sudo gdebi gh_0.7.0_linux_amd64.deb
+
+# init in a thydel repo context
+gh config set git_protocol ssh
+mv ~/.config/gh/config.yml ~/.config/gh/config.yml.thydel
+
+# init in a thyepi repo context
+gh config set git_protocol ssh
+mv ~/.config/gh/config.yml ~/.config/gh/config.yml.thyepi
+
+gh() { ln -sf config.yml.${GITHUB_USER:-thyepi} ~/.config/gh/config.yml; command gh "$@"; }
+
+# in a thyepi repo context
+gh issue status
+
+# in a thydel repo context
+export GITHUB_USER=thydel
+gh repo view
+```
 
 # 2020-04-18 Compile git 2.26 on debian 9.11
 
