@@ -1,6 +1,7 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2020-05-07 Set python 3 as default](#2020-05-07-set-python-3-as-default)
 - [2020-04-25 Uses gh with two context](#2020-04-25-uses-gh-with-two-context)
 - [2020-04-18 Compile git 2.26 on debian 9.11](#2020-04-18-compile-git-226-on-debian-911)
 - [2020-02-02 light-locker does not work wake up](#2020-02-02-light-locker-does-not-work-wake-up)
@@ -61,6 +62,18 @@
 - [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 <!-- markdown-toc end -->
+
+# 2020-05-07 Set python 3 as default
+
+[debian-set-python-3-as-default]:
+	https://michlstechblog.info/blog/debian-set-python-3-as-default/ "michlstechblog.info"
+
+See [debian-set-python-3-as-default][]
+
+```
+update-alternatives --install /usr/bin/python python /usr/bin/python3.5 2
+update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+```
 
 # 2020-04-25 Uses gh with two context
 
