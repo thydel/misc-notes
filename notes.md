@@ -5,6 +5,7 @@
 - [2020-05-07 Set python 3 as default](#2020-05-07-set-python-3-as-default)
 - [2020-04-25 Uses gh with two context](#2020-04-25-uses-gh-with-two-context)
 - [2020-04-18 Compile git 2.26 on debian 9.11](#2020-04-18-compile-git-226-on-debian-911)
+- [2020-04-09 disable ipv6](#2020-04-09-disable-ipv6)
 - [2020-02-02 light-locker does not work wake up](#2020-02-02-light-locker-does-not-work-wake-up)
 - [2020-02-02 mate icon with two displays](#2020-02-02-mate-icon-with-two-displays)
 - [2020-01-02 CROS TERMINFO](#2020-01-02-cros-terminfo)
@@ -139,6 +140,15 @@ make configure
 ./configure --prefix=/usr/local
 make all doc info
 sudo make install install-doc install-html install-info
+```
+
+# 2020-04-09 disable ipv6
+
+On a debian9
+
+```
+echo all default lo eth0 | xargs -n1 | xargs -i echo net.ipv6.conf.{}.disable_ipv6 = 1 | sudo tee -a /etc/sysctl.d/90-disable-ipv6.conf
+sudo sysctl -p -f /etc/sysctl.d/90-disable-ipv6.conf
 ```
 
 # 2020-02-02 light-locker does not work wake up
