@@ -1,6 +1,7 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2020-05-26 Uses gh on another node](#2020-05-26-uses-gh-on-another-node)
 - [2020-05-15 Fix thunderbird date format](#2020-05-15-fix-thunderbird-date-format)
 - [2020-05-07 Set python 3 as default](#2020-05-07-set-python-3-as-default)
 - [2020-04-25 Uses gh with two context](#2020-04-25-uses-gh-with-two-context)
@@ -65,6 +66,15 @@
 
 <!-- markdown-toc end -->
 
+# 2020-05-26 Uses gh on another node
+
+```
+release=0.8.0
+wget https://github.com/cli/cli/releases/download/v${release}/gh_${release}_linux_amd64.deb
+sudo gdebi gh_${release}_linux_amd64.deb
+(cd ~/.config; rsync -av tdeltd.wato:$(pwd)/gh .)
+```
+
 # 2020-05-15 Fix thunderbird date format
 
 [Date display format]:
@@ -91,8 +101,9 @@ update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
 # 2020-04-25 Uses gh with two context
 
 ```
-wget https://github.com/cli/cli/releases/download/v0.7.0/gh_0.7.0_linux_amd64.deb
-sudo gdebi gh_0.7.0_linux_amd64.deb
+release=0.8.0
+wget https://github.com/cli/cli/releases/download/v${release}/gh_${release}_linux_amd64.deb
+sudo gdebi gh_${release}_linux_amd64.deb
 
 # init in a thydel repo context
 gh config set git_protocol ssh
@@ -101,6 +112,7 @@ mv ~/.config/gh/config.yml ~/.config/gh/config.yml.thydel
 # init in a thyepi repo context
 gh config set git_protocol ssh
 mv ~/.config/gh/config.yml ~/.config/gh/config.yml.thyepi
+#sed -i /thydel/s//thyepi/ ~/.config/gh/config.yml.thyepi
 
 gh() { ln -sf config.yml.${GITHUB_USER:-thyepi} ~/.config/gh/config.yml; command gh "$@"; }
 
