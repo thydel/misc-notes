@@ -70,6 +70,7 @@
 
 ```
 release=0.8.0
+release=0.9.0
 wget https://github.com/cli/cli/releases/download/v${release}/gh_${release}_linux_amd64.deb
 sudo gdebi gh_${release}_linux_amd64.deb
 (cd ~/.config; rsync -av tdeltd.wato:$(pwd)/gh .)
