@@ -208,6 +208,10 @@ env GIT_SSH_COMMAND='ssh -i ~/.ssh/t.delamare@epiconcept.fr -F /dev/null' git cl
     https://github.com/Epiconcept-Paris/epiconcept-workstations
     "github.com repo"
 
+### Upload
+
+in 'Shared with me > Linux > TDE'
+
 
 [Local Variables:]::
 [indent-tabs-mode: nil]::
