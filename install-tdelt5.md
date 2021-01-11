@@ -8,7 +8,7 @@
 - [Emacs](#emacs)
 - [Chrome](#chrome)
 - [Thunderbird](#thunderbird)
-- [Use in group staff](#use-in-group-staff)
+- [User in group staff](#user-in-group-staff)
 - [Group staff control /usr/local](#group-staff-control-usrlocal)
 - [Epiconcept setup](#epiconcept-setup)
     - [NetExtender](#netextender)
@@ -122,7 +122,7 @@ sudo apt install ./google-chrome-stable_current_amd64.deb
 sudo aptitude install thunderbird
 ```
 
-# Use in group staff
+# User in group staff
 
 ```bash
 sudo add-user thy staff
