@@ -295,7 +295,7 @@ vgrename i1Zfaz-RXui-2dTe-DFWN-9Lbu-ZEI1-rQqEtK tdelt5-vg2
 Activate all LV
 
 ```bash
-vgchange -a y tdelt5-vg
+vgchange -a y tdelt5-vg2
 ```
 
 ## Use FS
