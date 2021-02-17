@@ -1,6 +1,7 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2019-12-23 Compose key broken](#2019-12-23-compose-key-broken)
 - [2019-12-20 propagate date](#2019-12-20-propagate-date)
 - [2019-12-13 use diceware](#2019-12-13-use-diceware)
 - [2019-10-18 status of all git repos](#2019-10-18-status-of-all-git-repos)
@@ -56,6 +57,60 @@
 - [2016-12-21 Linux 4.8 infos](#2016-12-21-linux-48-infos)
 
 <!-- markdown-toc end -->
+
+# 2019-10-16 compile git on debian10.2
+
+Because of `fatal: unable to find remote helper for 'https'`
+
+```
+sudo aptitude install libcurl-dev
+sudo aptitude install libssl-dev
+```
+
+Required
+
+```
+sudo apt-get install zlib1g-dev
+```
+
+Anecdotal pkg
+
+```
+sudo aptitude install docbook2x asciidoc
+```
+
+Get it
+
+```
+git clone git@github.com:git/git.git
+git -C git ls-remote --tags origin 'v2.2[2-4]*'
+git -C git checkout -b compile v2.24.1
+```
+
+Then as usual
+
+```
+make configure
+./configure --prefix=/usr/local
+make all doc info
+sudo make install install-doc install-html install-info
+```
+
+# 2019-12-23 Compose key broken
+
+Maybe because of a running xfce4 session from chrome-remote-desktop
+(Compose key works in thta session).
+
+Maybe not because same setup elsewhere (Mate main desktop and xfce4
+desktop on chrome-remote-desktop) don't break my compose key.
+
+Trying to use `setxkbmap` didn't fix the problem.
+
+```
+setxkbmap -option compose:ralt
+```
+
+Switching to debian10 fixed it.
 
 # 2019-12-20 propagate date
 
@@ -134,10 +189,16 @@ sudo apt-get purge libssl-dev
 sudo apt-get install libssl1.0-dev
 ```
 
+Required
+
+```
+sudo apt-get install zlib1g-dev
+```
+
 Anecdotal pkg
 
 ```
-sudo aptitude install docbook2x
+sudo aptitude install docbook2x asciidoc
 ```
 
 Get it
