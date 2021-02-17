@@ -1,12 +1,22 @@
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
+- [2020-05-26 Uses gh on another node](#2020-05-26-uses-gh-on-another-node)
+- [2020-05-15 Fix thunderbird date format](#2020-05-15-fix-thunderbird-date-format)
+- [2020-05-07 Set python 3 as default](#2020-05-07-set-python-3-as-default)
+- [2020-04-25 Uses gh with two context](#2020-04-25-uses-gh-with-two-context)
+- [2020-04-18 Compile git 2.26 on debian 9.11](#2020-04-18-compile-git-226-on-debian-911)
+- [2020-04-09 disable ipv6](#2020-04-09-disable-ipv6)
+- [2020-02-02 light-locker does not work wake up](#2020-02-02-light-locker-does-not-work-wake-up)
+- [2020-02-02 mate icon with two displays](#2020-02-02-mate-icon-with-two-displays)
+- [2020-01-02 CROS TERMINFO](#2020-01-02-cros-terminfo)
 - [2019-12-23 Compose key broken](#2019-12-23-compose-key-broken)
 - [2019-12-20 propagate date](#2019-12-20-propagate-date)
 - [2019-12-13 use diceware](#2019-12-13-use-diceware)
 - [2019-10-18 status of all git repos](#2019-10-18-status-of-all-git-repos)
 - [2019-10-18 collect all my awk script](#2019-10-18-collect-all-my-awk-script)
 - [2019-10-16 compile git on debian9.11](#2019-10-16-compile-git-on-debian911)
+- [2019-10-16 compile git on debian10.2](#2019-10-16-compile-git-on-debian102)
 - [2019-10-04 track all untracked remote](#2019-10-04-track-all-untracked-remote)
 - [2019-09-23 install ripgrep](#2019-09-23-install-ripgrep)
 - [2019-09-20 sftp for ipwebcam](#2019-09-20-sftp-for-ipwebcam)
@@ -58,33 +68,85 @@
 
 <!-- markdown-toc end -->
 
-# 2019-10-16 compile git on debian10.2
-
-Because of `fatal: unable to find remote helper for 'https'`
+# 2020-05-26 Uses gh on another node
 
 ```
-sudo aptitude install libcurl-dev
-sudo aptitude install libssl-dev
+release=0.8.0
+release=0.9.0
+wget https://github.com/cli/cli/releases/download/v${release}/gh_${release}_linux_amd64.deb
+sudo gdebi gh_${release}_linux_amd64.deb
+(cd ~/.config; rsync -av tdeltd.wato:$(pwd)/gh .)
 ```
 
-Required
+# 2020-05-15 Fix thunderbird date format
+
+[Date display format]:
+	http://kb.mozillazine.org/Date_display_format "mozillazine.org"
+
+See [Date display format][]
 
 ```
-sudo apt-get install zlib1g-dev
+env LC_TIME=en_DK thunderbird
+```
+
+# 2020-05-07 Set python 3 as default
+
+[debian-set-python-3-as-default]:
+	https://michlstechblog.info/blog/debian-set-python-3-as-default/ "michlstechblog.info"
+
+See [debian-set-python-3-as-default][]
+
+```
+update-alternatives --install /usr/bin/python python /usr/bin/python3.5 2
+update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+```
+
+# 2020-04-25 Uses gh with two context
+
+```
+release=0.8.0
+wget https://github.com/cli/cli/releases/download/v${release}/gh_${release}_linux_amd64.deb
+sudo gdebi gh_${release}_linux_amd64.deb
+
+# init in a thydel repo context
+gh config set git_protocol ssh
+mv ~/.config/gh/config.yml ~/.config/gh/config.yml.thydel
+
+# init in a thyepi repo context
+gh config set git_protocol ssh
+mv ~/.config/gh/config.yml ~/.config/gh/config.yml.thyepi
+#sed -i /thydel/s//thyepi/ ~/.config/gh/config.yml.thyepi
+
+gh() { ln -sf config.yml.${GITHUB_USER:-thyepi} ~/.config/gh/config.yml; command gh "$@"; }
+
+# in a thyepi repo context
+gh issue status
+
+# in a thydel repo context
+export GITHUB_USER=thydel
+gh repo view
+```
+
+# 2020-04-18 Compile git 2.26 on debian 9.11
+
+```
+sudo apt-get purge libssl-dev
+sudo apt-get install libssl1.0-dev
+>>>>>>> 76d6c3e2ff6e300bcd3c6ae663c9385e5f170dc9
 ```
 
 Anecdotal pkg
 
 ```
-sudo aptitude install docbook2x asciidoc
+sudo aptitude install docbook2x zlib1g-dev asciidoc
 ```
 
 Get it
 
 ```
 git clone git@github.com:git/git.git
-git -C git ls-remote --tags origin 'v2.2[2-4]*'
-git -C git checkout -b compile v2.24.1
+git -C git ls-remote --tags origin 'v2.2[2-9]*'
+git -C git checkout -b compile v2.26.1
 ```
 
 Then as usual
@@ -94,6 +156,69 @@ make configure
 ./configure --prefix=/usr/local
 make all doc info
 sudo make install install-doc install-html install-info
+```
+
+# 2020-04-09 disable ipv6
+
+On a debian9
+
+```
+echo all default lo eth0 | xargs -n1 | xargs -i echo net.ipv6.conf.{}.disable_ipv6 = 1 | sudo tee -a /etc/sysctl.d/90-disable-ipv6.conf
+sudo sysctl -p -f /etc/sysctl.d/90-disable-ipv6.conf
+```
+
+# 2020-02-02 light-locker does not work wake up
+
+- See [light-locker does not work wake up #138][]
+
+```
+echo -e '/light-locker-command --lock/s//dm-tool switch-to-greeter/\nwq' | ed /usr/bin/xflock4
+```
+
+Nope!
+
+```
+Not running inside a display manager, XDG_SEAT_PATH not defined
+```
+
+And no more locking beside
+
+[light-locker does not work wake up #138]:
+	https://github.com/the-cavalry/light-locker/issues/138 "github.com issue"
+
+
+Undo and forget
+
+# 2020-02-02 mate icon with two displays
+
+- Icons not on primary display
+
+```
+git clone https://github.com/WinEunuuchs2Unix/iconic.git WinEunuuchs2Unix/iconic
+sudo aptitude install yad
+sudo aptitude install wmctrl
+sudo aptitude install xdotool
+sudo aptitude install gvfs-bin
+```
+
+- OK, forget about it.
+
+```console
+thy@tdews3:~/usr/extern/WinEunuuchs2Unix/iconic$ ./iconic 1
+This tool has been deprecated, use 'gio info' instead.
+See 'gio help info' for more info.
+
+Moving Desktop Icons to monitor: 1
+./iconic: line 466: ColSize / MonIconColumns : division by 0 (error token is "MonIconColumns ")
+```
+
+
+# 2020-01-02 CROS TERMINFO
+
+After installing chromebrew `xterm-256color` is undefefined
+
+```
+echo export TERMINFO=/etc/terminfo >> ~/.bashrc
 ```
 
 # 2019-12-23 Compose key broken
@@ -219,6 +344,21 @@ sudo make install install-doc install-html install-info
 ```
 
 [Error on "make" #303]: https://github.com/rauc/rauc/issues/303 "github.com issue"
+
+# 2019-10-16 compile git on debian10.2
+
+Because of `fatal: unable to find remote helper for 'https'`
+
+```
+sudo aptitude install libcurl-dev
+sudo aptitude install libssl-dev
+```
+
+Required
+
+```
+sudo apt-get install zlib1g-dev
+```
 
 # 2019-10-04 track all untracked remote
 
