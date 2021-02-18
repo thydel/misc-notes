@@ -348,6 +348,156 @@ And select `Marco no compositer` in `System / Prefrences / Look and FEEL / Mate 
     https://bugzilla.redhat.com/show_bug.cgi?id=1645553
     "redhat.com"
 
+# Allow ssh as root
+
+```bash
+rsync -av ~/.ssh /root
+chown -R root.root /root/.ssh/
+```
+
+# Use NVME/home as home and SSD/home as spare
+
+```bash
+umount /home/thy/usr
+mount /dev/mapper/tdelt5--vg2-home /mnt/spl
+rsync -avH /home/ /mnt/spl
+umount /home
+umount mnt/spl
+aptitude install ed
+echo -e '/.thy.usr/s///\nwq' | ed /etc/fstab
+mount /home
+lvrename tdelt5-vg home spare
+echo -e '/tdelt5--vg-home/s/home/spare/g\nwq' | ed /etc/fstab
+mkdir /spare
+mount /spare
+```
+
+# Shortcuts via another lt
+
+```bash
+rsync -avH tdelt3:.thy ~/
+echo 'if [ -f ~/.thy/bashrc ]; then . ~/.thy/bashrc; fi' >> ~/.bashrc
+```
+
+```bash
+rsync -avH tdelt3:usr ~/
+```
+
+# Uses `package-activated-list` from an already configured workstation
+
+Previously done, works no more, Follow [ELPA Failing to Load Packages][]
+
+```bash
+emacsclient -s $USER --eval '(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")'
+```
+
+Then as usual
+
+```bash
+list () { ssh ${1:?} env TMPDIR=/var/tmp emacsclient -s $USER --eval package-activated-list | tr -d '()'; }
+norm () { fmt -1 | sort; }
+install () { xargs -i echo $'emacsclient -s $USER --eval "(package-install \'{})"'; }
+list tdelt3 | norm | install | dash
+```
+
+[ELPA Failing to Load Packages]:
+    https://irreal.org/blog/?p=8243
+    "irreal.org"
+
+# Get Helpers
+
+```bash
+(cd ~/usr/thydel.d/helpers; ./helper.mk install)
+```
+
+# Allows passwordless sudo during install
+
+```
+echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/$USER
+```
+
+# Vrac
+
+```bash
+(cd ~/.ssh; ln -s ssh-config config)
+```
+
+Copy-paste parts of /etc/hosts
+
+```bash
+ssh tdelt3 sudo adduser root ssh
+sudo -E rsync -av root@tdelt3.eth:/etc/local /etc
+```
+
+# Pass anf GPG
+
+## Install pass and get pass data
+
+```bash
+sudo aptitude install pass
+(cd; ln -s /home/thy/usr/perso.d/pass-store .password-store)
+pass git status
+```
+## Conf gpg-agent
+
+```bash
+sudo aptitude install pinentry-curses pinentry-tty
+echo pinentry-program /usr/bin/pinentry-tty >> ~/.gnupg/gpg-agent.conf
+echo default-cache-ttl $((3600 * 24)) >> ~/.gnupg/gpg-agent.conf
+echo max-cache-ttl $((3600 * 24 * 7)) >> ~/.gnupg/gpg-agent.conf
+```
+
+## Get my GPG key
+
+https://www.debuntu.org/how-to-importexport-gpg-key-pair/
+
+```bash
+ssh $some gpg --export --armor $USER | gpg --import
+ssh -t $some gpg --export-secret-keys --armor --output tmp.gpg $USER
+rsync $some:tmp.gpg .
+gpg --import tmp.gpg; rm tmp.gpg; ssh $some rm tmp.gpg
+# rm ~/.gnupg/trustdb.gpg
+ssh $some gpg --export-ownertrust | gpg --import-ownertrust
+```
+
+# Chrome conf
+
+## Add Epiconcept person to chrome
+
+No non manual way currently known.
+
+## laucher
+
+```
+google-chrome-beta --profile-directory=Default %U
+google-chrome-beta --profile-directory='Profile 1' %U
+```
+
+Choose different icons for different profiles
+
+```
+mkdir /usr/local/share/icons
+rsync -av ~/usr/perso.d/documents/icons/ /usr/local/share/icons
+```
+
+
+# Permanent fix gnome-keyring nightmare
+
+Not yet, wait and see if still required, intead
+
+```bash
+echo -e '/^export SSH_AUTH_SOCK/s/^/#/\nwq' | ed ~/.thy/bashrc
+```
+
+```bash
+cd ~/usr/thydel.d/misc-play
+helper ansible
+user-ssh-agent.yml
+systemctl --user enable user-ssh-agent
+systemctl --user start user-ssh-agent
+```
+
+
 [Local Variables:]::
 [indent-tabs-mode: nil]::
 [End:]::
