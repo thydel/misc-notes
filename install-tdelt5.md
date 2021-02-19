@@ -31,6 +31,27 @@
     - [LVM](#lvm)
     - [Use FS](#use-fs)
 - [Avoid Xorg problem](#avoid-xorg-problem)
+- [Allow ssh as root](#allow-ssh-as-root)
+- [Use NVME/home as home and SSD/home as spare](#use-nvmehome-as-home-and-ssdhome-as-spare)
+- [Shortcuts via another lt](#shortcuts-via-another-lt)
+- [Uses `package-activated-list` from an already configured workstation](#uses-package-activated-list-from-an-already-configured-workstation)
+- [Get Helpers](#get-helpers)
+- [Allows passwordless sudo during install](#allows-passwordless-sudo-during-install)
+- [Pass and GPG](#pass-and-gpg)
+    - [Install pass and get pass data](#install-pass-and-get-pass-data)
+    - [Conf gpg-agent](#conf-gpg-agent)
+    - [Get my GPG key](#get-my-gpg-key)
+- [Chrome conf](#chrome-conf)
+    - [Add Epiconcept person to chrome](#add-epiconcept-person-to-chrome)
+    - [laucher](#laucher)
+- [Permanent fix gnome-keyring nightmare](#permanent-fix-gnome-keyring-nightmare)
+- [Vatious tools](#vatious-tools)
+- [Ansible](#ansible)
+- [Jc](#jc)
+- [Compile last git](#compile-last-git)
+- [Install acroread](#install-acroread)
+- [Locales](#locales)
+- [Fix thunderbird date format](#fix-thunderbird-date-format)
 
 <!-- markdown-toc end -->
 
@@ -577,6 +598,26 @@ sudo aptitude update
 which gdebi || sudo aptitude install gdebi
 sudo aptitude install libxml2:i386 libstdc++6:i386
 sudo gdebi -n AdbeRdr9.5.5-1_i386linux_enu.deb
+```
+
+# Locales
+
+```bash
+echo -e '/^# fr_FR.UTF-8/s/^# //\nwq' | sudo ed /etc/locale.gen
+add () { local f=/etc/locale.gen; grep -q ^${1:?} $f || echo -e "/^# $1/s/^# //\nwq" | sudo ed $f; }
+add fr_FR.UTF-8
+add en_DK.UTF-8
+```
+
+# Fix thunderbird date format
+
+[Date display format]:
+	http://kb.mozillazine.org/Date_display_format "mozillazine.org"
+
+See [Date display format][]
+
+```
+env LC_TIME=en_DK.UTF.8 thunderbird
 ```
 
 [Local Variables:]::
