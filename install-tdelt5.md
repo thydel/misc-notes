@@ -383,6 +383,25 @@ echo 'if [ -f ~/.thy/bashrc ]; then . ~/.thy/bashrc; fi' >> ~/.bashrc
 rsync -avH tdelt3:usr ~/
 ```
 
+```bash
+(cd ~/.ssh; ln -s ssh-config config)
+```
+
+Copy-paste parts of /etc/hosts
+
+```bash
+ssh tdelt3 sudo adduser root ssh
+sudo -E rsync -av root@tdelt3.eth:/etc/local /etc
+```
+
+```bash
+rsync tdelt3:.gitconfig ~/
+```
+
+```bash
+sudo -E rsync -aHuv root@tdelt3.eth:/usr/local/ /usr/local
+```
+
 # Uses `package-activated-list` from an already configured workstation
 
 Previously done, works no more, Follow [ELPA Failing to Load Packages][]
@@ -416,20 +435,7 @@ list tdelt3 | norm | install | dash
 echo "$USER ALL=(ALL:ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/$USER
 ```
 
-# Vrac
-
-```bash
-(cd ~/.ssh; ln -s ssh-config config)
-```
-
-Copy-paste parts of /etc/hosts
-
-```bash
-ssh tdelt3 sudo adduser root ssh
-sudo -E rsync -av root@tdelt3.eth:/etc/local /etc
-```
-
-# Pass anf GPG
+# Pass and GPG
 
 ## Install pass and get pass data
 
@@ -480,7 +486,6 @@ mkdir /usr/local/share/icons
 rsync -av ~/usr/perso.d/documents/icons/ /usr/local/share/icons
 ```
 
-
 # Permanent fix gnome-keyring nightmare
 
 Not yet, wait and see if still required, intead
@@ -497,6 +502,82 @@ systemctl --user enable user-ssh-agent
 systemctl --user start user-ssh-agent
 ```
 
+# Vatious tools
+
+```bash
+sudo aptitude install make-doc curl autoconf asciidoc pandoc
+```
+
+# Ansible
+
+```bash
+mkdir -p ~/.ansible
+rsync -avn tdelt3:.ansible/collections .ansible
+sudo aptitude install python3-yaml python3-jinja2 python-apt
+sudo aptitude install python3-pip
+pip3 install pycrypto
+(cd /usr/local/bin; ln -s /usr/bin/python3 python)
+```
+
+# Jc
+
+```bash
+sudo -H pip3 install jc
+jc -a | jq
+```
+
+# Compile last git
+
+Get latest version
+
+```bash
+git clone git@github.com:git/git.git
+sudo aptitude install curl
+last-tag () { curl --silent https://api.github.com/repos/${1:?}/tags | jq -r .[].name | sort -V | tail -1; }
+last-tag git/git | xargs -i git -C git checkout -b compile {}
+```
+
+Deps
+
+```console
+thy@tdelt5:~$ cat /etc/debian_version 
+10.8
+```
+
+```bash
+sudo aptitude install zlib1g-dev libssl-dev libcurl4-openssl-dev libexpat1-dev gettext docbook2x asciidoc
+```
+
+Then as usual
+
+```bash
+cd git
+sudo aptitude install autoconf
+make configure
+./configure --prefix=/usr/local
+make all doc info
+sudo make install install-doc install-html install-info
+```
+
+```console
+thy@tdelt5:~$ /usr/bin/git --version
+git version 2.20.1
+thy@tdelt5:~$ type git
+git is hashed (/usr/local/bin/git)
+thy@tdelt5:~$ git --version
+git version 2.30.1
+```
+
+# Install acroread
+
+```bash
+wget ftp://ftp.adobe.com/pub/adobe/reader/unix/9.x/9.5.5/enu/AdbeRdr9.5.5-1_i386linux_enu.deb
+sudo dpkg --add-architecture i386
+sudo aptitude update
+which gdebi || sudo aptitude install gdebi
+sudo aptitude install libxml2:i386 libstdc++6:i386
+sudo gdebi -n AdbeRdr9.5.5-1_i386linux_enu.deb
+```
 
 [Local Variables:]::
 [indent-tabs-mode: nil]::
