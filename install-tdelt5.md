@@ -52,6 +52,12 @@
 - [Install acroread](#install-acroread)
 - [Locales](#locales)
 - [Fix thunderbird date format](#fix-thunderbird-date-format)
+- [Too many dicts](#too-many-dicts)
+- [chrome remote desktop](#chrome-remote-desktop)
+    - [chrome-remote-desktop](#chrome-remote-desktop)
+    - [xfce4](#xfce4)
+- [chrome remote desktop session](#chrome-remote-desktop-session)
+- [passi](#passi)
 
 <!-- markdown-toc end -->
 
@@ -619,6 +625,68 @@ See [Date display format][]
 ```
 env LC_TIME=en_DK.UTF.8 thunderbird
 ```
+
+# Too many dicts
+
+```bash
+edit-func () { : ${3:?}; source <(declare -f $1 | sed -e s_{$2}_$3_); }
+
+nocache () { rm -f ~/tmp/.cache/${1:?}; }
+cache () (
+  set -euo pipefail;
+  local n=$1;
+  shift;
+  local d=~/tmp/.cache;
+  local f=$d/$n;
+  mkdir -p $d;
+  if test -f $f; then cat $f; else $n "$@" | tee $f; fi;
+)
+
+list-inst-with () { apt-file search -l ${1:?} | sed -e s/^/~i/ | xargs -r aptitude -F %p search; }
+cache list-inst-with /var/lib/dictionaries-common
+cache list-inst-with /var/lib/dictionaries-common | grep aspell | grep -v -e aspell-en -e aspell-fr | xargs sudo aptitude remove -y
+
+aptitude search -F%p ^hunspell-~i | grep -v -e hunspell-fr -e hunspell-en | xargs sudo aptitude remove -y
+aptitude search -F%p ^myspell-~i | grep -v -e myspell-fr -e myspell-en -e myspell-uk | xargs sudo aptitude remove -y
+
+list-inst-with /usr/lib/thunderbird/extensions/langpack
+```
+
+# chrome remote desktop
+
+## chrome-remote-desktop
+
+```
+sudo mkdir -p /usr/local/dist
+sudo aptitude install proot
+sudo proot -w /usr/local/dist wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
+sudo aptitude install gdebi
+sudo gdebi --non-interactive  /usr/local/dist/chrome-remote-desktop_current_amd64.deb
+```
+
+## xfce4
+
+If `xfce` was not choosen during install
+
+```
+sudo aptitude install xfce4
+sudo aptitude install xfce4-cpufreq-plugin xfce4-cpugraph-plugin xfce4-datetime-plugin xfce4-diskperf-plugin xfce4-datetime-plugin xfce4-goodies xfce4-netload-plugin xfce4-places-plugin xfce4-terminal xfce4-xkb-plugin
+```
+
+# chrome remote desktop session
+
+```
+sudo adduser $USER chrome-remote-desktop
+echo 'env -u DBUS_SESSION_BUS_ADDRESS xfce4-session' > ~/.chrome-remote-desktop-session
+```
+
+# passi
+
+```bash
+passi () { env PASSWORD_STORE_GIT=~/.password-store-infra PASSWORD_STORE_DIR=~/.password-store-infra/password-store pass "$@"; }
+passi keepass_admin/Backup/backup01_iDRAC
+```
+
 
 [Local Variables:]::
 [indent-tabs-mode: nil]::
