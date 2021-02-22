@@ -110,7 +110,7 @@ apt install htop hdparm
 apt install aptitude
 aptitude install apt-file
 apt-file update
-aptitude install screen make git
+aptitude install screen make git ccrypt ripgrep
 aptitude install openssh-server
 ```
 
@@ -687,6 +687,49 @@ passi () { env PASSWORD_STORE_GIT=~/.password-store-infra PASSWORD_STORE_DIR=~/.
 passi keepass_admin/Backup/backup01_iDRAC
 ```
 
+# Printer Epson xp-2100
+
+```bash
+sudo aptitude install cups
+sudo adduser $USER lpadmin
+sudo aptitude install printer-driver-all
+sudo aptitude install system-config-printer
+```
+
+- See [Epson L3110 on Ubuntu 20.04 LTS][]
+- Use [epson.net][] to search `xp-2100`
+- Get `epson-inkjet-printer-escpr_1.7.9-1lsb3.2_amd64.deb`
+- Get `epson-printer-utility_1.1.1-1lsb3.2_amd64.deb`
+- get [lsb-compat][] from [packages.debian.org][]
+
+```bash
+d=/usr/local/dist
+f=lsb-compat_9.20161125_amd64.deb
+test -f $d/$f || proot -w $d http://ftp.debian.org/debian/pool/main/l/lsb/$f
+```
+
+```bash
+cd /usr/local/dist
+sudo apt install ./lsb-compat_9.20161125_amd64.deb
+sudo apt install ./epson-printer-utility_1.1.1-1lsb3.2_amd64.deb
+sudo apt install ./epson-inkjet-printer-escpr_1.7.9-1lsb3.2_amd64.deb
+```
+
+[lsb-compat]:
+    http://ftp.debian.org/debian/pool/main/l/lsb/lsb-compat_9.20161125_amd64.deb
+    "ftp.debian.org"
+
+[packages.debian.org]:
+    https://packages.debian.org/stretch/amd64/lsb-compat/download
+    "packages.debian.org"
+
+[Epson L3110 on Ubuntu 20.04 LTS]:
+    https://askubuntu.com/questions/1250554/epson-l3110-on-ubuntu-20-04-lts
+    "askubuntu.com"
+
+[epson.net]:
+    https://download.ebz.epson.net/dsc/search/01/search/searchModule
+    "epson.net"
 
 [Local Variables:]::
 [indent-tabs-mode: nil]::
