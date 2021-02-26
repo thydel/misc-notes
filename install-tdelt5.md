@@ -110,7 +110,8 @@ apt install htop hdparm
 apt install aptitude
 aptitude install apt-file
 apt-file update
-aptitude install screen make git ccrypt ripgrep
+aptitude install screen make git ripgrep
+aptitude install ccrypt elpa-ps-ccrypt
 aptitude install openssh-server
 ```
 
