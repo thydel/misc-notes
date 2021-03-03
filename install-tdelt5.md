@@ -732,6 +732,26 @@ sudo apt install ./epson-inkjet-printer-escpr_1.7.9-1lsb3.2_amd64.deb
     https://download.ebz.epson.net/dsc/search/01/search/searchModule
     "epson.net"
 
+# X11 broken after upgrade and reboot
+
+```
+Fatal server error:
+[    86.760] (EE) Cannot run in framebuffer mode. Please specify busIDs        for all framebuffer devices
+```
+
+## Try backports
+
+```bash
+echo deb http://deb.debian.org/debian buster-backports main non-free contrib | sudo tee -a /etc/apt/sources.list
+sudo aptitude update
+aptitude search -t $(lsb_release -sc)-backports -F '%p %v -> %V' '~U ~Abackports linux-image-amd64'
+
+sudo aptitude remove linux-image-4.19.0-13-amd64
+
+sudo aptitude install -t $(lsb_release -sc)-backports linux-image-amd64 linux-headers-amd64
+aptitude search -t $(lsb_release -sc)-backports -F %p '~U ~Abackports firmware' | xargs sudo sudo aptitude install -t $(lsb_release -sc)-backports -y
+```
+
 [Local Variables:]::
 [indent-tabs-mode: nil]::
 [End:]::
