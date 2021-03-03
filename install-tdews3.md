@@ -91,6 +91,13 @@ cp debian-9.57.0-amd64-netinst.iso /dev/sd$usbkeyid
      - create swap ~200% memsize, home ~45% and local ~45% on tdews3-vg2
 - Install xfce, Mate, sshd
 
+# First local step
+
+```bash
+su
+apt install openssh-server
+```
+
 # first remote steps
 
 ## install key
@@ -110,7 +117,7 @@ Login using mate and use `su` add us to `sudo` group
 ```
 export u=$USER
 su
-adduser $u sudo
+/usr/sbin/adduser $u sudo
 exit
 mate-session-save --logout
 ```
@@ -132,16 +139,19 @@ Install `aptitude`, `deborphan` and `apt-file`
 sudo apt update
 sudo apt list --upgradable
 sudo apt upgrade
+sudo apt full-upgrade
 sudo apt install aptitude
-echo 'aptitude update; aptitude full-upgrade' | sudo dash
+echo 'aptitude update; aptitude full-upgrade -y' | sudo dash
 echo 'aptitude install -y deborphan; deborphan' | sudo dash
+deborphan
+deborphan | sudo aptitude -y remove
 echo 'aptitude install -y apt-file; apt-file update' | sudo dash
 ```
 
 # Allow remote cryproot-unlock
 
 ```
-sudo aptitude insstall busyox dropbear dropbear-initramfs
+sudo aptitude install busyox dropbear dropbear-initramfs rsync
 sudo rsync -av ~/.ssh/authorized_keys /etc/dropbear-initramfs
 sudo update-initramfs -u
 ```
