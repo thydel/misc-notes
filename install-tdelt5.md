@@ -752,6 +752,19 @@ sudo aptitude install -t $(lsb_release -sc)-backports linux-image-amd64 linux-he
 aptitude search -t $(lsb_release -sc)-backports -F %p '~U ~Abackports firmware' | xargs sudo sudo aptitude install -t $(lsb_release -sc)-backports -y
 ```
 
+# imagemagick - convert not allowed
+
+- [imagemagick - convert not allowed][]
+- [override default ImageMagick policy.xml][]
+
+[imagemagick - convert not allowed]:
+    https://askubuntu.com/questions/1127260/imagemagick-convert-not-allowed
+    "askubuntu.com"
+
+[override default ImageMagick policy.xml]:
+    https://stackoverflow.com/questions/52703123/override-default-imagemagick-policy-xml
+    "stackoverflow.com"
+
 [Local Variables:]::
 [indent-tabs-mode: nil]::
 [End:]::
